@@ -1,41 +1,86 @@
-import React from "react";
-import { LogoZallpy } from "../../../assets/svgs/LogoZallpy";
-import { MenuIcon } from "../../../assets/svgs/MenuIcon";
-import { ConfigIcon } from "../../../assets/svgs/ConfigIcon";
+import React from 'react';
+import { COLORS } from '../../utils/colors';
+
+import { ConfigIcon } from '../../../assets/svgs/ConfigIcon';
+import { UserIcon } from '../../../assets/svgs/UserIcon';
+import { SearchIcon } from '../../../assets/svgs/SearchIcon';
+import { NotificationIcon } from '../../../assets/svgs/NotificationIcon';
 
 import {
   Container,
-  ContentContainer,
   SideMenu,
-  Header,
+  MenuHeader,
+  LeftPartHeader,
+  RightPartHeader,
   Label,
-  TitleWrapper,
-  FlexDiv,
-  UserIcon,
-  Divider,
-} from "./StyledComponents";
+  OptionsWrapper,
+  Option,
+  ContentContainer,
+  Header,
+  HorizontalDivider,
+  VerticalDivider,
+  IconWrapper,
+  CircleUserPlaceholder,
+} from './StyledComponents';
 
 export const LayoutStructure = ({ children }) => {
+  const optionsFirstPart = [
+    { name: 'Option 1', icon: <UserIcon /> },
+    { name: 'Option 2', icon: <UserIcon /> },
+    { name: 'Option 3', icon: <UserIcon /> },
+    { name: 'Option 4', icon: <UserIcon /> },
+    { name: 'Option 5', icon: <UserIcon /> },
+    { name: 'Option 6', icon: <UserIcon /> },
+  ];
+
+  const optionsSecondPart = [
+    { name: 'Configurações', icon: <ConfigIcon /> },
+  ];
+
   return (
     <Container>
-      <Header>
-        <FlexDiv>
-          <LogoZallpy />
-          <MenuIcon />
-        </FlexDiv>
-        <FlexDiv>
-          <UserIcon>AD</UserIcon>
-          <Divider />
-          <ConfigIcon />
-        </FlexDiv>
-      </Header>
+      <SideMenu>
+        <MenuHeader>
+          <Label color={COLORS.LIGHT_GREY} fs={24} fw={700}>
+            LinkMe
+          </Label>
+        </MenuHeader>
+        <OptionsWrapper>
+          {optionsFirstPart.map((option) => (
+            <Option>
+              {option.icon}
+              {option.name}
+            </Option>
+          ))}
+        </OptionsWrapper>
+        <HorizontalDivider />
+        <OptionsWrapper>
+          {optionsSecondPart.map((option) => (
+            <Option>
+              {option.icon}
+              {option.name}
+            </Option>
+          ))}
+        </OptionsWrapper>
+      </SideMenu>
       <ContentContainer>
-        <SideMenu>
-          <TitleWrapper>
-            <Label>SideMenu</Label>
-          </TitleWrapper>
-        </SideMenu>
-        <div>{children}</div>
+        <Header>
+          <LeftPartHeader>
+            <Label>Candidatos</Label>
+          </LeftPartHeader>
+          <RightPartHeader>
+            <IconWrapper ml={24}>
+              <SearchIcon />
+            </IconWrapper>
+            <IconWrapper ml={24}>
+              <NotificationIcon />
+            </IconWrapper>
+            <VerticalDivider />
+            <Label>Leonardo Martinelli</Label>
+            <CircleUserPlaceholder />
+          </RightPartHeader>
+        </Header>
+        {children}
       </ContentContainer>
     </Container>
   );

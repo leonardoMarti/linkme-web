@@ -56,7 +56,7 @@ export const Login = () => {
           <Input placeholder="E-mail" mb={20} />
           <Input placeholder="Senha" mb={10} />
           <ForgotPasswordLink>Esqueci minha senha</ForgotPasswordLink>
-          <Button>Entrar</Button>
+          <Button onClick={redirectToAppointment}>Entrar</Button>
         </Form>
       </Main>
     </Container>

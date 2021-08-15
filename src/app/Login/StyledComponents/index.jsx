@@ -47,7 +47,7 @@ export const Header = styled.header`
 export const Input = styled.input`
   height: 50px;
   border-radius: 5px;
-  border: 0.5px solid ${COLORS.LIGHT_GREY};
+  border: 0.5px solid ${COLORS.GREY};
   padding: 0 10px;
   width: 100%;
 
