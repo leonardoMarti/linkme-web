@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '../../../common/utils/colors';
 import { MEDIA_QUERIES } from '../../../common/utils/breakPoints';
+import { Button } from '../../../common/components/Button';
 
 export const Container = styled.div`
   display: flex;
@@ -44,14 +45,8 @@ export const Header = styled.header`
   }
 `;
 
-export const Input = styled.input`
-  height: 50px;
-  border-radius: 5px;
-  border: 0.5px solid ${COLORS.GREY};
-  padding: 0 10px;
-  width: 100%;
-
-  margin-bottom: ${({ mb }) => mb && `${mb}px`};
+export const InputWrapper = styled.div`
+  margin-bottom: 20px;
 `;
 
 export const Form = styled.form`
@@ -65,27 +60,8 @@ export const Form = styled.form`
   }
 `;
 
-export const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${COLORS.LIGHT_BLACK};
-  height: 50px;
-  border-radius: 5px;
-  border: 0;
-  cursor: pointer;
-
-  padding: ${({ pd }) => pd && pd};
-
-  color: ${COLORS.WHITE};
-  font-size: 18px;
-  font-weight: 600;
-
-  transition: filter 0.2s;
-
-  &:hover {
-    filter: brightness(1.3);
-  }
+export const CreateButton = styled(Button)`
+  padding: 0 10px;
 `;
 
 export const Title = styled.h1`

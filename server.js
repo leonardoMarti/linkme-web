@@ -11,12 +11,13 @@ router.get('/*', (req, res) => {
 
 app.use('/', router);
 
-const isDevMode = process && process.env && process.env.NODE_ENV === 'development';
+const isDevMode =
+  process && process.env && process.env.NODE_ENV === 'development';
 
 let PORT = 80;
 
 if (isDevMode) {
-  PORT = 4000;
+  PORT = 3000;
 }
 
 app.listen(PORT);

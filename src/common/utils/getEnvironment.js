@@ -1,4 +1,4 @@
-module.exports = () => {
+export const getEnvironment = () => {
   const isDevMode =
     process && process.env && process.env.NODE_ENV === 'development';
 
