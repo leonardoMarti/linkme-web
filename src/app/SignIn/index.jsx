@@ -4,7 +4,8 @@ import { COLORS } from '../../common/utils/colors';
 import { useForm } from 'react-hook-form';
 
 import { REGEX } from '../../common/utils/regex';
-import { ROUTES } from '../../common/routes';
+import { PAGES } from '../../common/pages';
+import { SIGN_IN } from '../../common/translate';
 
 import { useAuth } from 'hooks/useAuth';
 
@@ -41,12 +42,12 @@ export const SignIn = () => {
   });
 
   const redirectToCreateAccount = () =>
-    history.push(ROUTES.CREATEACCOUNT);
+    history.push(PAGES.CREATEACCOUNT);
 
   const submitLogIn = async (values) => {
     const { email, password } = values;
     const response = await signIn({ email, password });
-    if (response) return history.push(ROUTES.USERMANAGEMENT);
+    if (response) return history.push(PAGES.USERMANAGEMENT);
   };
 
   return (
@@ -54,29 +55,29 @@ export const SignIn = () => {
       <Aside>
         <BackgroundLogo>
           <Label color={COLORS.WHITE} fs={80} fw={700}>
-            LinkMe
+            {SIGN_IN.linkMe}
           </Label>
         </BackgroundLogo>
       </Aside>
       <Main>
         <Header>
-          <MobileTitle>LinkMe</MobileTitle>
+          <MobileTitle>{SIGN_IN.linkMe}</MobileTitle>
           <CreateAccountWrapper>
             <Label fs={12} fw={500} mr={20}>
-              Não tem uma conta ainda?
+              {SIGN_IN.dontHaveAccount}
             </Label>
 
             <CreateButton onClick={redirectToCreateAccount}>
-              Criar conta
+              {SIGN_IN.createYourAccount}
             </CreateButton>
           </CreateAccountWrapper>
         </Header>
 
         <Form onSubmit={handleSubmit(submitLogIn)}>
-          <Title>Acesse sua conta</Title>
+          <Title>{SIGN_IN.accessAccount}</Title>
           <InputWrapper>
             <Label fs={14} fw={500}>
-              Informe seus dados de acesso
+              {SIGN_IN.informYourData}
             </Label>
             <Input
               name="email"
@@ -84,14 +85,14 @@ export const SignIn = () => {
                 required: true,
                 pattern: REGEX.email,
               })}
-              placeholder="E-mail"
+              placeholder={SIGN_IN.emailPlaceholder}
               errors={Boolean(errors?.email)}
             />
             {errors?.email?.type === 'required' && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>
             )}
             {errors?.email?.type === 'pattern' && (
-              <ErrorMessage>Formato inválido</ErrorMessage>
+              <ErrorMessage>{SIGN_IN.invalidFormat}</ErrorMessage>
             )}
           </InputWrapper>
           <InputWrapper>
@@ -100,17 +101,19 @@ export const SignIn = () => {
               {...register('password', {
                 required: true,
               })}
-              placeholder="Senha"
+              placeholder={SIGN_IN.passwordPlaceholder}
               type="password"
               errors={Boolean(errors?.password)}
             />
             {errors?.password && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>
             )}
           </InputWrapper>
 
-          <ForgotPasswordLink>Esqueci minha senha</ForgotPasswordLink>
-          <Button type="submit">Entrar</Button>
+          <ForgotPasswordLink>
+            {SIGN_IN.forgotPassword}
+          </ForgotPasswordLink>
+          <Button type="submit">{SIGN_IN.enter}</Button>
         </Form>
       </Main>
     </Container>

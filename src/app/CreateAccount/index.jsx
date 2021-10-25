@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { REGEX } from '../../common/utils/regex';
+import { PAGES } from '../../common/pages';
+import { CREATE_ACCOUNT } from '../../common/translate';
 
 import { useAuth } from 'hooks/useAuth';
 
@@ -36,7 +38,7 @@ export const CreateAccount = () => {
     mode: 'onChange',
   });
 
-  const redirectToSignIn = () => history.push();
+  const redirectToSignIn = () => history.push(PAGES.SIGNIN);
 
   const submitCreateAccount = async (values) => {
     await createAccount(values);
@@ -45,36 +47,38 @@ export const CreateAccount = () => {
   return (
     <Container>
       <Header>
-        <Title fs={24}>LinkMe</Title>
+        <Title fs={24}>{CREATE_ACCOUNT.linkMe}</Title>
         <SignInWrapper>
-          <Label mr={20}>Já possuo conta</Label>
+          <Label mr={20}>{CREATE_ACCOUNT.haveAccount}</Label>
 
           <SignInButton onClick={redirectToSignIn}>
-            Entrar
+            {CREATE_ACCOUNT.enter}
           </SignInButton>
         </SignInWrapper>
       </Header>
       <Main>
         <Form onSubmit={handleSubmit(submitCreateAccount)}>
-          <Title fs={50}>Cadastre-se</Title>
+          <Title fs={50}>{CREATE_ACCOUNT.createYourAccount}</Title>
           <InputWrapper>
             <Label fs={14} fw={500}>
-              Nome
+              {CREATE_ACCOUNT.name}
             </Label>
             <Input
               name="name"
               {...register('name', { required: true })}
-              placeholder="Seu nome completo"
+              placeholder={CREATE_ACCOUNT.namePlaceholder}
               type="name"
               errors={Boolean(errors?.name)}
             />
             {errors?.name && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>
+                {CREATE_ACCOUNT.requiredField}
+              </ErrorMessage>
             )}
           </InputWrapper>
           <InputWrapper>
             <Label fs={14} fw={500}>
-              E-mail
+              {CREATE_ACCOUNT.email}
             </Label>
             <Input
               name="email"
@@ -82,19 +86,23 @@ export const CreateAccount = () => {
                 required: true,
                 pattern: REGEX.email,
               })}
-              placeholder="E-mail para acesso"
+              placeholder={CREATE_ACCOUNT.emailPlaceholder}
               errors={Boolean(errors?.email)}
             />
             {errors?.email?.type === 'required' && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>
+                {CREATE_ACCOUNT.requiredField}
+              </ErrorMessage>
             )}
             {errors?.email?.type === 'pattern' && (
-              <ErrorMessage>Formato inválido</ErrorMessage>
+              <ErrorMessage>
+                {CREATE_ACCOUNT.invalidFormat}
+              </ErrorMessage>
             )}
           </InputWrapper>
           <InputWrapper>
             <Label fs={14} fw={500}>
-              Senha
+              {CREATE_ACCOUNT.password}
             </Label>
             <Input
               name="password"
@@ -102,22 +110,24 @@ export const CreateAccount = () => {
                 required: true,
                 minLength: 6,
               })}
-              placeholder="Sua senha"
+              placeholder={CREATE_ACCOUNT.passwordPlaceholder}
               type="password"
               errors={Boolean(errors?.password)}
             />
             {errors?.password?.type === 'required' && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>
+                {CREATE_ACCOUNT.requiredField}
+              </ErrorMessage>
             )}
             {errors?.password?.type === 'minLength' && (
               <ErrorMessage>
-                A senha precisa de no mínimo 6 caracteres
+                {CREATE_ACCOUNT.passwordMinLength}
               </ErrorMessage>
             )}
           </InputWrapper>
           <InputWrapper>
             <Label fs={14} fw={500}>
-              Tipo de conta
+              {CREATE_ACCOUNT.accountType}
             </Label>
             <RadioWrapper mt={10} mb={10}>
               <Radio
@@ -127,7 +137,7 @@ export const CreateAccount = () => {
                 {...register('type', { required: true })}
               />
               <Label fs={14} fw={500} ml={10}>
-                Estágiario
+                {CREATE_ACCOUNT.trainee}
               </Label>
             </RadioWrapper>
 
@@ -139,15 +149,17 @@ export const CreateAccount = () => {
                 {...register('type', { required: true })}
               />
               <Label fs={14} fw={500} ml={10}>
-                Empresa
+                {CREATE_ACCOUNT.company}
               </Label>
             </RadioWrapper>
 
             {errors?.type && (
-              <ErrorMessage>Campo obrigatório</ErrorMessage>
+              <ErrorMessage>
+                {CREATE_ACCOUNT.requiredField}
+              </ErrorMessage>
             )}
           </InputWrapper>
-          <Button type="submit">Cadastre-se</Button>
+          <Button type="submit">{CREATE_ACCOUNT.register}</Button>
         </Form>
       </Main>
     </Container>
