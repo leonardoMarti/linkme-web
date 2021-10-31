@@ -27,8 +27,12 @@ export const AuthContextProvider = (props) => {
         email,
         password,
       });
+
+      const { token, user } = data;
       setUser(data);
-      setStorage('login', data);
+      setStorage('user', user);
+      setStorage('token', token);
+
       return data;
     } catch (e) {
       SnackBar.ERROR(e?.data?.error || 'Falha no login');
@@ -39,13 +43,13 @@ export const AuthContextProvider = (props) => {
     const { data } = await UserService.findByPk({ userId: id });
     if (data) {
       setUser(data);
-      setStorage('login', data);
+      setStorage('user', data);
     }
   };
 
   useEffect(() => {
-    const { user: userData } = getStorage('login');
-    if (userData) findUserByPk(userData?.id);
+    const userData = getStorage('user');
+    if (userData?.id) findUserByPk(userData?.id);
   }, []);
 
   const context = {

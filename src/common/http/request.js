@@ -1,14 +1,25 @@
 import axios from './axios';
 import getEnvironment from '../../utils/getEnvironment';
+import { getStorage } from '../../common/utils/storage';
 
 const BASE_URL = getEnvironment();
 
-const executeRequest = (method, url, data) =>
-  axios[method](`${BASE_URL}${url}`, data);
+const executeRequest = (method, url, data, token = false) => {
+  const authtoken = getStorage('token');
+  if (token && authtoken) {
+    axios.defaults.headers[method][
+      'Authorization'
+    ] = `Bearer ${authtoken}`;
+  }
+
+  return axios[method](`${BASE_URL}${url}`, data);
+};
 
 export const request = {
-  get: (url) => executeRequest('get', url),
-  save: (url, data) => executeRequest('post', url, data),
-  update: (url, data) => executeRequest('put', url, data),
-  remove: (url) => executeRequest('delete', url),
+  get: (url, token) => executeRequest('get', url, null, token),
+  save: (url, data, token) =>
+    executeRequest('post', url, data, token),
+  update: (url, data, token) =>
+    executeRequest('put', url, data, token),
+  remove: (url, token) => executeRequest('delete', url, null, token),
 };

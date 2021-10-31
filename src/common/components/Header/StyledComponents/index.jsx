@@ -23,7 +23,7 @@ export const Label = styled.label`
 `;
 
 export const VerticalDivider = styled.div`
-  border-right: 1px solid ${COLORS.HALF_DARK_GREY};
+  border-right: 1px solid ${COLORS.GREY3};
   margin: 0 32px;
   height: 32px;
 `;
@@ -46,7 +46,7 @@ export const CircleUserPlaceholder = styled.div`
   height: 44px;
   width: 44px;
   border-radius: 25px;
-  background-color: ${COLORS.HALF_DARK_GREY};
+  background-color: ${COLORS.GREY3};
   margin-left: 14px;
   cursor: pointer;
 `;

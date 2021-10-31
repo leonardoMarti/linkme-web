@@ -54,7 +54,7 @@ export const SignInButton = styled(Button)`
 export const Title = styled.h1`
   font-size: ${({ fs }) => fs && `${fs}px`};
   font-weight: 700;
-  color: ${COLORS.LIGHT_BLACK};
+  color: ${COLORS.BLACK};
   margin-bottom: 20px;
 
   ${MEDIA_QUERIES.smDown} {

@@ -20,7 +20,7 @@ export const Aside = styled.aside`
 export const BackgroundLogo = styled.div`
   display: flex;
   justify-content: center;
-  background-color: ${COLORS.LIGHT_BLACK};
+  background-color: ${COLORS.BLACK};
   width: 315px;
   margin-left: 50px;
   padding-top: 30px;
@@ -67,7 +67,7 @@ export const CreateButton = styled(Button)`
 export const Title = styled.h1`
   font-size: 50px;
   font-weight: 700;
-  color: ${COLORS.LIGHT_BLACK};
+  color: ${COLORS.BLACK};
   margin-bottom: 20px;
 
   ${MEDIA_QUERIES.smDown} {
@@ -87,7 +87,7 @@ export const Label = styled.label`
 export const ForgotPasswordLink = styled.div`
   display: flex;
   justify-content: flex-end;
-  color: ${COLORS.BLUE_LINK};
+  color: ${COLORS.BLUE};
   text-decoration: underline;
   font-size: 12px;
   margin-bottom: 20px;
@@ -106,6 +106,6 @@ export const MobileTitle = styled.div`
     display: flex;
     font-size: 30px;
     font-weight: 700;
-    color: ${COLORS.LIGHT_BLACK};
+    color: ${COLORS.BLACK};
   }
 `;

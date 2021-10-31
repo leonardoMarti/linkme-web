@@ -5,7 +5,7 @@ export const CustomButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${COLORS.LIGHT_BLACK};
+  background: ${COLORS.BLACK};
   height: 50px;
   border-radius: 5px;
   border: 0;

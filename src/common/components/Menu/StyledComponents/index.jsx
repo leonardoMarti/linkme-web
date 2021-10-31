@@ -10,7 +10,7 @@ export const Container = styled.div`
 
   position: fixed;
 
-  background-color: ${COLORS.LIGHT_BLACK};
+  background-color: ${COLORS.BLACK};
 `;
 
 export const MenuHeader = styled.div`
@@ -34,8 +34,8 @@ export const OptionsWrapper = styled.div`
 
 export const Option = styled.div`
   display: flex;
-  color: ${COLORS.LIGHT_GREY};
-  background-color: ${COLORS.LIGHT_BLACK};
+  color: ${COLORS.GREY2};
+  background-color: ${COLORS.BLACK};
   padding: 15px 0;
   cursor: pointer;
 
@@ -59,6 +59,6 @@ export const Option = styled.div`
 `;
 
 export const HorizontalDivider = styled.div`
-  border-bottom: 1px solid ${COLORS.LIGHT_GREY};
+  border-bottom: 1px solid ${COLORS.GREY2};
   margin: 20px 10px;
 `;

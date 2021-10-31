@@ -11,6 +11,7 @@ import { SignIn } from './app/SignIn';
 import { Appointment } from './app/Appointment';
 import { UserManagement } from './app/UserManagement';
 import { CreateAccount } from './app/CreateAccount';
+import { Profile } from './app/Profile';
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
             path={PAGES.CREATEACCOUNT}
             component={CreateAccount}
           />
+          <Route path={PAGES.PROFILE} component={Profile} />
         </Switch>
       </AuthContextProvider>
     </BrowserRouter>
