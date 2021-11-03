@@ -1,8 +1,12 @@
 import { request } from '../http/request';
 import { ROUTES } from '../routes';
+import queryString from 'query-string';
 
 export const CandidateService = {
-  findAll: () => {
-    return request.get(ROUTES.CANDIDATES, true);
+  findAll: (data) => {
+    return request.get(
+      `${ROUTES.CANDIDATES}?${queryString.stringify(data)}`,
+      true,
+    );
   },
 };

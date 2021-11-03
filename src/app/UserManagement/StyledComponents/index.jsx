@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { COLORS } from '../../../common/utils/colors';
+import { Select } from '../../../common/components/Select';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
 
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -22,7 +24,7 @@ export const Label = styled.label`
   cursor: ${({ pointer }) => pointer && 'pointer'};
 `;
 
-export const TableHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 32px 32px 48px 32px;
@@ -51,7 +53,7 @@ export const TableWrapper = styled.div`
 `;
 
 export const Divider = styled.div`
-  border-bottom: 1px solid ${COLORS.GREY4};
+  border-bottom: 1px solid ${COLORS.GREY3};
 `;
 
 export const Head = styled.div`
@@ -75,8 +77,14 @@ export const TableRows = styled.div`
 
 export const SectionRow = styled.div`
   display: flex;
-  border-bottom: 1px solid ${COLORS.GREY4};
+  border-bottom: 1px solid ${COLORS.GREY3};
   padding: 24px 30px;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(164, 166, 179, 0.1);
+  }
 `;
 
 export const Row = styled.div`
@@ -87,7 +95,8 @@ export const Row = styled.div`
   padding-right: 10px;
 
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
+  color: ${({ hasData }) => !hasData && COLORS.GREY5};
 `;
 
 export const CircleUserIcon = styled.div`
@@ -96,6 +105,7 @@ export const CircleUserIcon = styled.div`
   border-radius: 25px;
   background-color: ${COLORS.GREY3};
   cursor: pointer;
+  margin-right: 5px;
 `;
 
 const setStatusColor = (status) => {
@@ -118,4 +128,32 @@ export const KnowledgeStatus = styled.div`
 
   font-size: 14px;
   font-weight: 600;
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  padding: 24px 32px;
+`;
+
+export const Limit = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${COLORS.GREY4};
+  margin-right: 50px;
+`;
+
+export const LimitSelected = styled(Select)`
+  width: 85px;
+`;
+
+export const Offset = styled.div`
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  color: ${COLORS.GREY4};
 `;
