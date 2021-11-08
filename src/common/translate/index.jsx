@@ -1,3 +1,16 @@
+export const SIGN_IN = {
+  linkMe: 'LinkMe',
+  dontHaveAccount: 'Não tem uma conta ainda?',
+  createYourAccount: 'Criar conta',
+  accessAccount: 'Acesse sua conta',
+  informYourData: 'Informe seus dados de acesso',
+  emailPlaceholder: 'E-mail para acesso',
+  passwordPlaceholder: 'Sua senha',
+  forgotPassword: 'Esqueci minha senha',
+  invalidFormat: 'Formato inválido',
+  enter: 'Entrar',
+};
+
 export const CREATE_ACCOUNT = {
   linkMe: 'LinkMe',
   haveAccount: 'Já possuo conta',
@@ -18,17 +31,18 @@ export const CREATE_ACCOUNT = {
   register: 'Cadastre-se',
 };
 
-export const SIGN_IN = {
-  linkMe: 'LinkMe',
-  dontHaveAccount: 'Não tem uma conta ainda?',
-  createYourAccount: 'Criar conta',
-  accessAccount: 'Acesse sua conta',
-  informYourData: 'Informe seus dados de acesso',
-  emailPlaceholder: 'E-mail para acesso',
-  passwordPlaceholder: 'Sua senha',
-  forgotPassword: 'Esqueci minha senha',
-  invalidFormat: 'Formato inválido',
-  enter: 'Entrar',
+export const USER_MANAGEMENT = {
+  searchForTrainees: 'Busca por estágiarios',
+  order: 'Ordenar',
+  filter: 'Filtrar',
+  totalResults: 'Total de resultados',
+  name: 'Nome',
+  vacancyOfInterest: 'Vaga de interesse',
+  local: 'Local',
+  availability: 'Disponibilidade',
+  courseTime: 'Tempo de curso',
+  knowledge: 'Conhecimento',
+  notInformed: 'Não informado',
 };
 
 export const USER_MANAGEMENT_STATUS = [

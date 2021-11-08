@@ -4,19 +4,22 @@ import React, {
   useContext,
   createContext,
 } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { LayoutStructure } from '../../common/components/LayoutStructure';
 
 import { CandidateService } from '../../common/services/candidateService';
 
-import { USER_MANAGEMENT_STATUS } from '../../common/translate';
+import {
+  USER_MANAGEMENT,
+  USER_MANAGEMENT_STATUS,
+} from '../../common/translate';
 
 import { COLORS } from '../../common/utils/colors';
 
 import { SortIcon } from '../../assets/svgs/SortIcon';
 import { FilterIcon } from '../../assets/svgs/FilterIcon';
-import { ArrowDownIcon } from '../../assets/svgs/ArrowDownIcon';
+import { ArrowLeft } from '../../assets/svgs/ArrowLeft';
+import { ArrowRight } from '../../assets/svgs/ArrowRight';
 
 import {
   Container,
@@ -42,30 +45,32 @@ import {
 export const Context = createContext();
 
 export const UserManagement = () => {
-  const history = useHistory();
-
   const [userData, setUserData] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [increaseLimit, setIncreaseLimit] = useState(limit);
+  const [limit, setLimit] = useState(5);
+  const [offset, setOffset] = useState(0);
 
   const findAllCandidates = async () => {
     const { data } = await CandidateService.findAll({
       limit,
-      offset: 0,
+      offset,
     });
     if (data?.length) setUserData(data);
   };
 
   useEffect(() => {
     findAllCandidates();
-  }, [limit, increaseLimit]);
+  }, [limit, offset]);
+
+  useEffect(() => {
+    setOffset(0);
+  }, [limit]);
 
   const context = {
     userData,
     limit,
     setLimit,
-    increaseLimit,
-    setIncreaseLimit,
+    offset,
+    setOffset,
   };
 
   return (
@@ -87,14 +92,14 @@ const TableHeader = () => {
   return (
     <Header>
       <Label fs={19} fw={700}>
-        Busca por estágiarios
+        {USER_MANAGEMENT.searchForTrainees}
       </Label>
       <ActionWrapper>
         <Action mr={32}>
-          <SortIcon /> Ordenar
+          <SortIcon /> {USER_MANAGEMENT.order}
         </Action>
         <Action>
-          <FilterIcon /> Filtrar
+          <FilterIcon /> {USER_MANAGEMENT.filter}
         </Action>
       </ActionWrapper>
     </Header>
@@ -102,8 +107,7 @@ const TableHeader = () => {
 };
 
 const TableFooter = () => {
-  const { limit, setLimit, increaseLimit, setIncreaseLimit } =
-    useContext(Context);
+  const { limit, setLimit, offset, setOffset } = useContext(Context);
 
   const limitOptions = [
     { value: 5, label: 5 },
@@ -117,7 +121,7 @@ const TableFooter = () => {
     <Footer>
       <Limit>
         <Label fs={14} color={COLORS.GREY4} mr={10}>
-          Total de resultados
+          {USER_MANAGEMENT.totalResults}
         </Label>
 
         <LimitSelected
@@ -129,12 +133,11 @@ const TableFooter = () => {
           menuPlacement={'top'}
         />
       </Limit>
-      <Offset onClick={() => setLimit(limit * 2)}>
-        <Label fs={14} color={COLORS.GREY4} mr={10} pointer>
-          Carregar mais
-        </Label>
-
-        <ArrowDownIcon />
+      <Offset onClick={() => setOffset(Math.abs(limit - offset))}>
+        <ArrowLeft />
+      </Offset>
+      <Offset onClick={() => setOffset(limit + offset)}>
+        <ArrowRight />
       </Offset>
     </Footer>
   );
@@ -144,15 +147,13 @@ const Table = () => {
   const { userData } = useContext(Context);
 
   const traineeColumns = [
-    { name: 'Nome', space: 1.5 },
-    { name: 'Vaga de interesse', space: 1 },
-    { name: 'Local', space: 1 },
-    { name: 'Disponibilidade', space: 1 },
-    { name: 'Tempo de curso', space: 1 },
-    { name: 'Conhecimento', space: 1 },
+    { name: USER_MANAGEMENT.name, space: 1.5 },
+    { name: USER_MANAGEMENT.vacancyOfInterest, space: 1 },
+    { name: USER_MANAGEMENT.local, space: 1 },
+    { name: USER_MANAGEMENT.availability, space: 1 },
+    { name: USER_MANAGEMENT.courseTime, space: 1 },
+    { name: USER_MANAGEMENT.knowledge, space: 1 },
   ];
-
-  const handleAddress = (data) => data?.city;
 
   const handleJob = (data) => data[0]?.job?.name;
 
@@ -187,33 +188,32 @@ const Table = () => {
           <SectionRow key={index}>
             <Row flex={1.5} hasData={item?.user?.name}>
               <CircleUserIcon />
-              {item?.user?.name || 'Não informado'}
+              {item?.user?.name || USER_MANAGEMENT.notInformed}
             </Row>
             <Row flex={1} hasData={handleJob(item?.job)}>
-              {handleJob(item?.job) || 'Não informado'}
+              {handleJob(item?.job) || USER_MANAGEMENT.notInformed}
             </Row>
-            <Row
-              flex={1}
-              hasData={handleAddress(item?.user?.address)}
-            >
-              {handleAddress(item?.user?.address) || 'Não informado'}
+            <Row flex={1} hasData={item?.user?.address?.city}>
+              {item?.user?.address?.city ||
+                USER_MANAGEMENT.notInformed}
             </Row>
             <Row
               flex={1}
               hasData={handleAvailability(item?.availability)}
             >
               {handleAvailability(item?.availability) ||
-                'Não informado'}
+                USER_MANAGEMENT.notInformed}
             </Row>
             <Row
               flex={1}
               hasData={handleCourseTime(item?.courseTime)}
             >
-              {handleCourseTime(item?.courseTime) || 'Não informado'}
+              {handleCourseTime(item?.courseTime) ||
+                USER_MANAGEMENT.notInformed}
             </Row>
             <Row flex={1}>
-              <KnowledgeStatus status={2}>
-                {handleKnowledgeNote(2)}
+              <KnowledgeStatus status={item?.job[0]?.level}>
+                {handleKnowledgeNote(item?.job[0]?.level)}
               </KnowledgeStatus>
             </Row>
           </SectionRow>

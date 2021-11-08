@@ -153,7 +153,16 @@ export const Offset = styled.div`
   display: flex;
   align-items: center;
 
+  border-radius: 30px;
+  padding: 20px;
   cursor: pointer;
 
   color: ${COLORS.GREY4};
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(164, 166, 179, 0.1);
+    border-radius: 30px;
+  }
 `;
