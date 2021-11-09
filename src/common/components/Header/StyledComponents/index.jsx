@@ -11,6 +11,7 @@ export const Container = styled.header`
   padding: 30px;
 
   position: fixed;
+  z-index: 1;
 `;
 
 export const Label = styled.label`

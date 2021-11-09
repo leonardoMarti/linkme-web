@@ -2,5 +2,5 @@ export const PAGES = {
   SIGNIN: '/',
   USERMANAGEMENT: '/user-management',
   CREATEACCOUNT: '/create-account',
-  PROFILE: '/profile',
+  CANDIDATEPROFILE: '/candidate-profile',
 };

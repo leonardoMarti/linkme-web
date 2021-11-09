@@ -3,7 +3,7 @@ import { COLORS } from '../../../utils/colors';
 
 export const Container = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 export const Content = styled.div`
