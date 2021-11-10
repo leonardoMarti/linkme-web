@@ -8,10 +8,8 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { LayoutStructure } from '../../common/components/LayoutStructure';
 
-import { Select } from '../../common/components/Select';
 import { ErrorMessage } from '../../common/components/ErrorMessage';
 
-import { REGEX } from '../../common/utils/regex';
 import { STATES } from '../../common/utils/states';
 import { CANDIDATE_PROFILE } from '../../common/translate';
 
@@ -25,9 +23,12 @@ import { IdiomService } from '../../common/services/idiomService';
 import {
   Container,
   Title,
+  Label,
   SInput,
+  SSelect,
   Box,
-  Email,
+  FlexDiv,
+  FieldWrapper,
 } from './StyledComponents';
 
 const Context = createContext();
@@ -148,30 +149,53 @@ const UserInfo = () => {
   return (
     <Box>
       <Title>Dados da conta</Title>
-      <SInput
-        name="name"
-        {...register('name', {
-          required: true,
-        })}
-        placeholder={'Seu nome'}
-        errors={Boolean(errors?.name)}
-      />
-      {errors?.name && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
-      <Email>E-mail</Email>
-      <SInput
-        name="password"
-        {...register('password', {
-          required: true,
-        })}
-        placeholder={'Sua senha'}
-        type="password"
-        errors={Boolean(errors?.password)}
-      />
-      {errors?.password && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      <FlexDiv fw={'wrap'}>
+        <FieldWrapper mr={20}>
+          <Label>Nome</Label>
+          <SInput
+            name="name"
+            {...register('name', {
+              required: true,
+            })}
+            placeholder={'Seu nome'}
+            errors={Boolean(errors?.name)}
+          />
+          {errors?.name && (
+            <ErrorMessage>
+              {CANDIDATE_PROFILE.requiredField}
+            </ErrorMessage>
+          )}
+        </FieldWrapper>
+        <FieldWrapper mr={20}>
+          <Label>E-mail</Label>
+
+          <SInput
+            name="email"
+            {...register('email')}
+            placeholder={'Seu nome'}
+            errors={Boolean(errors?.email)}
+            disabled
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <Label>Senha</Label>
+          <SInput
+            name="password"
+            {...register('password', {
+              required: true,
+            })}
+            placeholder={'Sua senha'}
+            type="password"
+            errors={Boolean(errors?.password)}
+          />
+          {errors?.password && (
+            <ErrorMessage>
+              {CANDIDATE_PROFILE.requiredField}
+            </ErrorMessage>
+          )}
+        </FieldWrapper>
+      </FlexDiv>
     </Box>
   );
 };
@@ -182,45 +206,69 @@ const Address = () => {
   return (
     <Box>
       <Title>Endereço</Title>
-      <Controller
-        name="state"
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field }) => (
-          <Select
-            {...field}
-            placeholder="Selecione"
-            options={STATES}
+      <FlexDiv fw={'wrap'}>
+        <FieldWrapper mr={20}>
+          <Label>Estado</Label>
+          <Controller
+            name="state"
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field }) => (
+              <SSelect
+                {...field}
+                placeholder="Selecione"
+                options={STATES}
+                mw={400}
+                mr={20}
+              />
+            )}
           />
-        )}
-      />
-      {errors?.state && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
-      <SInput
-        name="city"
-        {...register('city', {
-          required: true,
-        })}
-        placeholder={'Sua cidade'}
-        errors={Boolean(errors?.city)}
-      />
-      {errors?.city && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
-      <SInput
-        name="neighborhood"
-        {...register('neighborhood', {
-          required: true,
-        })}
-        placeholder={'Seu bairro'}
-        errors={Boolean(errors?.neighborhood)}
-      />
-      {errors?.neighborhood && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+          {errors?.state && (
+            <ErrorMessage>
+              {CANDIDATE_PROFILE.requiredField}
+            </ErrorMessage>
+          )}
+        </FieldWrapper>
+
+        <FieldWrapper mr={20}>
+          <Label>Cidade</Label>
+          <SInput
+            name="city"
+            {...register('city', {
+              required: true,
+            })}
+            placeholder={'Sua cidade'}
+            errors={Boolean(errors?.city)}
+            mw={400}
+            mr={20}
+          />
+          {errors?.city && (
+            <ErrorMessage>
+              {CANDIDATE_PROFILE.requiredField}
+            </ErrorMessage>
+          )}
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <Label>Bairro</Label>
+          <SInput
+            name="neighborhood"
+            {...register('neighborhood', {
+              required: true,
+            })}
+            placeholder={'Seu bairro'}
+            errors={Boolean(errors?.neighborhood)}
+            mw={400}
+          />
+          {errors?.neighborhood && (
+            <ErrorMessage>
+              {CANDIDATE_PROFILE.requiredField}
+            </ErrorMessage>
+          )}
+        </FieldWrapper>
+      </FlexDiv>
     </Box>
   );
 };
@@ -238,7 +286,7 @@ const Job = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={jobList}
@@ -266,10 +314,11 @@ const Availability = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={availabilityList}
+            isMulti={true}
           />
         )}
       />
@@ -293,7 +342,7 @@ const CourseTime = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={courseTimeList}
@@ -322,10 +371,11 @@ const Personality = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={personalityList}
+            isMulti={true}
           />
         )}
       />
@@ -352,10 +402,11 @@ const Skill = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={skillList}
+            isMulti={true}
           />
         )}
       />
@@ -380,10 +431,11 @@ const Idiom = () => {
           required: true,
         }}
         render={({ field }) => (
-          <Select
+          <SSelect
             {...field}
             placeholder="Selecione"
             options={idiomList}
+            isMulti={true}
           />
         )}
       />

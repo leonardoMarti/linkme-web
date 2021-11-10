@@ -1,8 +1,12 @@
 export const selectStyles = {
+  container: (base) => ({
+    ...base,
+    width: '100%',
+  }),
   control: (base) => ({
     ...base,
     minHeight: '50px',
-    border: '0.5px solid #c4c4c4',
+    border: '0.5px solid #a9a9a9',
   }),
   menu: (base) => ({
     ...base,

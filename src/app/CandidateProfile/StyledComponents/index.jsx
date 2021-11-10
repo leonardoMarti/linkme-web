@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '../../../common/utils/colors';
 import { Input } from '../../../common/components/Input';
+import { Select } from '../../../common/components/Select';
 
 export const Container = styled.div`
   display: flex;
@@ -22,6 +23,17 @@ export const Box = styled.div`
   margin-bottom: 30px;
 `;
 
+export const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 400px;
+
+  margin-bottom: 10px;
+  margin-right: ${({ mr }) => mr && `${mr}px`};
+`;
+
 export const Label = styled.label`
   font-size: ${({ fs }) => fs && `${fs}px`};
   font-weight: ${({ fw }) => fw && `${fw}`};
@@ -34,18 +46,22 @@ export const Label = styled.label`
 export const Title = styled.div`
   font-size: 19px;
   font-weight: 700;
+  margin-bottom: 30px;
 `;
 
 export const SInput = styled(Input)`
-  min-width: 250px;
+  max-width: ${({ mw }) => mw && `${mw}px`};
+  margin-right: ${({ mr }) => mr && `${mr}px`};
 `;
 
-export const Email = styled.div`
-  height: 50px;
-  width: 100%;
-  min-width: 250px;
+export const SSelect = styled(Select)`
+  max-width: ${({ mw }) => mw && `${mw}px`};
+  margin-right: ${({ mr }) => mr && `${mr}px`};
+`;
 
-  border-radius: 5px;
-  border: 0.5px solid #a9a9a9;
-  padding: 10px;
+export const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${({ fd }) => fd};
+  flex-wrap: ${({ fw }) => fw};
+  justify-content: ${({ jc }) => jc};
 `;

@@ -12,6 +12,7 @@ export const Select = ({
   defaultValue,
   placeholder,
   menuPlacement = 'bottom',
+  isMulti = false,
 }) => {
   return (
     <ReactSelect
@@ -25,6 +26,7 @@ export const Select = ({
       options={options}
       onChange={onChange}
       menuPlacement={menuPlacement}
+      isMulti={isMulti}
     />
   );
 };
