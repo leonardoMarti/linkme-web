@@ -21,15 +21,20 @@ import {
 
 export const Menu = () => {
   const { user: userData } = useAuth();
+
   const history = useHistory();
 
   const traineeOptions = [
-    { name: 'Option 1', icon: <UserIcon />, page: PAGES.PROFILE },
+    {
+      name: 'Perfil',
+      icon: <UserIcon />,
+      page: PAGES.CANDIDATEPROFILE,
+    },
   ];
 
   const companyOptions = [
-    { name: 'Option 1', icon: <UserIcon />, page: PAGES.PROFILE },
-    { name: 'Option 2', icon: <UserIcon /> },
+    { name: 'Option 1', icon: <UserIcon />, page: '' },
+    { name: 'Option 2', icon: <UserIcon />, page: '' },
   ];
 
   const configOptions = [
@@ -39,14 +44,12 @@ export const Menu = () => {
   const redirectTo = (page) => history.push(page);
 
   const renderOptions =
-    userData?.user?.type === 'trainee'
-      ? traineeOptions
-      : companyOptions;
+    userData?.type === 'trainee' ? traineeOptions : companyOptions;
 
   return (
     <Container>
-      <MenuHeader>
-        <Label color={COLORS.GREY2} fs={24} fw={700}>
+      <MenuHeader onClick={() => history.push(PAGES.USERMANAGEMENT)}>
+        <Label color={COLORS.GREY2} pointer fs={24} fw={700}>
           LinkMe
         </Label>
       </MenuHeader>

@@ -11,6 +11,8 @@ import { LayoutStructure } from '../../common/components/LayoutStructure';
 import { ErrorMessage } from '../../common/components/ErrorMessage';
 
 import { STATES } from '../../common/utils/states';
+import { getStorage } from '../../common/utils/storage';
+
 import { CANDIDATE_PROFILE } from '../../common/translate';
 
 import { JobService } from '../../common/services/jobService';
@@ -19,6 +21,7 @@ import { CourseTimeService } from '../../common/services/courseTimeService';
 import { PersonalityService } from '../../common/services/personalityService';
 import { SkillService } from '../../common/services/skillService';
 import { IdiomService } from '../../common/services/idiomService';
+import { CandidateService } from '../../common/services/candidateService';
 
 import {
   Container,
@@ -34,6 +37,8 @@ import {
 const Context = createContext();
 
 export const CandidateProfile = () => {
+  const userData = getStorage('user');
+
   const [jobList, setjobList] = useState([]);
   const [availabilityList, setAvailabilityList] = useState([]);
   const [courseTimeList, setCourseTimeList] = useState([]);
@@ -41,14 +46,21 @@ export const CandidateProfile = () => {
   const [skillList, setSkillList] = useState([]);
   const [idiomList, setIdiomList] = useState([]);
 
+  const [candidate, setCandidate] = useState();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset,
+    getValues,
+    watch,
   } = useForm({
     mode: 'onChange',
   });
+
+  const { state, availability } = getValues();
 
   const findAllJobs = async () => {
     const { data } = await JobService.findAll();
@@ -104,6 +116,34 @@ export const CandidateProfile = () => {
     }
   };
 
+  const findCandidateById = async () => {
+    const { data } = await CandidateService.findAll({
+      userId: userData?.id,
+    });
+    if (data?.length) {
+      setCandidate(data[0]);
+      const { user, job, availability } = data[0];
+
+      reset({
+        name: user?.name,
+        email: user?.email,
+        state:
+          {
+            value: user?.address?.state,
+            label: user?.address?.state,
+          } || null,
+        city: user?.address?.city || null,
+        neighborhood: user?.address?.neighborhood || null,
+        job: { value: job[0]?.id, label: job[0]?.job?.name } || null,
+        availability:
+          availability.map((item) => ({
+            value: item?.id,
+            label: item?.availability?.name,
+          })) || null,
+      });
+    }
+  };
+
   useEffect(() => {
     findAllJobs();
     findAllAvailabilities();
@@ -111,18 +151,21 @@ export const CandidateProfile = () => {
     findAllPersonalities();
     findAllSkills();
     findAllIdioms();
+    findCandidateById();
   }, []);
 
   const context = {
     register,
     errors,
     control,
+    watch,
     jobList,
     availabilityList,
     courseTimeList,
     personalityList,
     skillList,
     idiomList,
+    candidate,
   };
 
   return (
@@ -144,7 +187,7 @@ export const CandidateProfile = () => {
 };
 
 const UserInfo = () => {
-  const { register, errors } = useContext(Context);
+  const { register, errors, watch } = useContext(Context);
 
   return (
     <Box>
@@ -157,6 +200,7 @@ const UserInfo = () => {
             {...register('name', {
               required: true,
             })}
+            value={watch('name')}
             placeholder={'Seu nome'}
             errors={Boolean(errors?.name)}
           />
@@ -172,28 +216,11 @@ const UserInfo = () => {
           <SInput
             name="email"
             {...register('email')}
+            value={watch('email')}
             placeholder={'Seu nome'}
             errors={Boolean(errors?.email)}
             disabled
           />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <Label>Senha</Label>
-          <SInput
-            name="password"
-            {...register('password', {
-              required: true,
-            })}
-            placeholder={'Sua senha'}
-            type="password"
-            errors={Boolean(errors?.password)}
-          />
-          {errors?.password && (
-            <ErrorMessage>
-              {CANDIDATE_PROFILE.requiredField}
-            </ErrorMessage>
-          )}
         </FieldWrapper>
       </FlexDiv>
     </Box>
@@ -201,7 +228,7 @@ const UserInfo = () => {
 };
 
 const Address = () => {
-  const { register, errors, control } = useContext(Context);
+  const { register, errors, control, watch } = useContext(Context);
 
   return (
     <Box>
@@ -220,8 +247,6 @@ const Address = () => {
                 {...field}
                 placeholder="Selecione"
                 options={STATES}
-                mw={400}
-                mr={20}
               />
             )}
           />
@@ -239,10 +264,9 @@ const Address = () => {
             {...register('city', {
               required: true,
             })}
+            value={watch('city')}
             placeholder={'Sua cidade'}
             errors={Boolean(errors?.city)}
-            mw={400}
-            mr={20}
           />
           {errors?.city && (
             <ErrorMessage>
@@ -258,6 +282,7 @@ const Address = () => {
             {...register('neighborhood', {
               required: true,
             })}
+            value={watch('neighborhood')}
             placeholder={'Seu bairro'}
             errors={Boolean(errors?.neighborhood)}
             mw={400}
@@ -382,7 +407,6 @@ const Personality = () => {
       {errors?.personality && (
         <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
       )}
-      <div>Nível</div>
     </Box>
   );
 };

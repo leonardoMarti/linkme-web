@@ -35,12 +35,10 @@ export const FieldWrapper = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: ${({ fs }) => fs && `${fs}px`};
-  font-weight: ${({ fw }) => fw && `${fw}`};
+  font-size: 14px;
+  font-weight: 500;
   color: ${({ color }) => color && color};
-  margin-bottom: ${({ mb }) => mb && `${mb}px`};
-  margin-right: ${({ mr }) => mr && `${mr}px`};
-  cursor: ${({ pointer }) => pointer && 'pointer'};
+  margin-bottom: 5px;
 `;
 
 export const Title = styled.div`

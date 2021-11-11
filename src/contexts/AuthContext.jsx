@@ -29,10 +29,9 @@ export const AuthContextProvider = (props) => {
       });
 
       const { token, user } = data;
-      setUser(data);
+      setUser({ ...user, token });
       setStorage('user', user);
       setStorage('token', token);
-
       return data;
     } catch (e) {
       SnackBar.ERROR(e?.data?.error || 'Falha no login');
