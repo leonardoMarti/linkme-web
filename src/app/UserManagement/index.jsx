@@ -6,13 +6,11 @@ import React, {
 } from 'react';
 
 import { LayoutStructure } from '../../common/components/LayoutStructure';
+import { LevelChip } from '../../common/components/LevelChip';
 
 import { CandidateService } from '../../common/services/candidateService';
 
-import {
-  USER_MANAGEMENT,
-  USER_MANAGEMENT_STATUS,
-} from '../../common/translate';
+import { USER_MANAGEMENT, USER_LEVEL } from '../../common/translate';
 
 import { COLORS } from '../../common/utils/colors';
 
@@ -168,11 +166,6 @@ const Table = () => {
 
   const handleCourseTime = (data) => data[0]?.courseTime?.name;
 
-  const handleKnowledgeNote = (item) =>
-    USER_MANAGEMENT_STATUS.find(
-      (status) => status?.knowledge === item,
-    )?.name;
-
   return (
     <TableWrapper>
       <Head>
@@ -212,9 +205,7 @@ const Table = () => {
                 USER_MANAGEMENT.notInformed}
             </Row>
             <Row flex={1}>
-              <KnowledgeStatus status={item?.job[0]?.level}>
-                {handleKnowledgeNote(item?.job[0]?.level)}
-              </KnowledgeStatus>
+              <LevelChip level={item?.job[0]?.level} />
             </Row>
           </SectionRow>
         ))}

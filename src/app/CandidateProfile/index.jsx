@@ -9,8 +9,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { LayoutStructure } from '../../common/components/LayoutStructure';
 
 import { ErrorMessage } from '../../common/components/ErrorMessage';
+import { LevelChip } from '../../common/components/LevelChip';
 
 import { STATES } from '../../common/utils/states';
+
 import { getStorage } from '../../common/utils/storage';
 
 import { CANDIDATE_PROFILE } from '../../common/translate';
@@ -32,6 +34,8 @@ import {
   Box,
   FlexDiv,
   FieldWrapper,
+  Chip,
+  ChipWrapper,
 } from './StyledComponents';
 
 const Context = createContext();
@@ -60,13 +64,17 @@ export const CandidateProfile = () => {
     mode: 'onChange',
   });
 
-  const { state, availability } = getValues();
+  const { job, skill, idiom } = getValues();
 
   const findAllJobs = async () => {
     const { data } = await JobService.findAll();
     if (data?.length) {
       setjobList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
+        data.map((item) => ({
+          value: item?.id,
+          label: item?.name,
+          level: null,
+        })),
       );
     }
   };
@@ -102,7 +110,11 @@ export const CandidateProfile = () => {
     const { data } = await SkillService.findAll();
     if (data?.length) {
       setSkillList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
+        data.map((item) => ({
+          value: item?.id,
+          label: item?.name,
+          level: null,
+        })),
       );
     }
   };
@@ -111,7 +123,11 @@ export const CandidateProfile = () => {
     const { data } = await IdiomService.findAll();
     if (data?.length) {
       setIdiomList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
+        data.map((item) => ({
+          value: item?.id,
+          label: item?.name,
+          level: null,
+        })),
       );
     }
   };
@@ -122,7 +138,15 @@ export const CandidateProfile = () => {
     });
     if (data?.length) {
       setCandidate(data[0]);
-      const { user, job, availability } = data[0];
+      const {
+        user,
+        job,
+        availability,
+        skill,
+        idiom,
+        courseTime,
+        personality,
+      } = data[0];
 
       reset({
         name: user?.name,
@@ -134,11 +158,38 @@ export const CandidateProfile = () => {
           } || null,
         city: user?.address?.city || null,
         neighborhood: user?.address?.neighborhood || null,
-        job: { value: job[0]?.id, label: job[0]?.job?.name } || null,
+        job:
+          {
+            value: job[0]?.job?.id,
+            label: job[0]?.job?.name,
+            level: job[0]?.level,
+          } || null,
         availability:
           availability.map((item) => ({
             value: item?.id,
             label: item?.availability?.name,
+          })) || null,
+        courseTime: {
+          value: courseTime[0]?.courseTime?.id,
+          label: courseTime[0]?.courseTime?.name,
+        },
+        personality:
+          personality.map((item) => ({
+            value: item?.id,
+            label: item?.personality?.name,
+          })) || null,
+
+        skill:
+          skill.map((item) => ({
+            value: item?.id,
+            label: item?.skill[0]?.name,
+            level: item?.level,
+          })) || null,
+        idiom:
+          idiom.map((item) => ({
+            value: item?.id,
+            label: item?.idiom[0]?.name,
+            level: item?.level,
           })) || null,
       });
     }
@@ -166,6 +217,9 @@ export const CandidateProfile = () => {
     skillList,
     idiomList,
     candidate,
+    skill,
+    idiom,
+    job,
   };
 
   return (
@@ -194,7 +248,9 @@ const UserInfo = () => {
       <Title>Dados da conta</Title>
       <FlexDiv fw={'wrap'}>
         <FieldWrapper mr={20}>
-          <Label>Nome</Label>
+          <Label fs={14} fw={500}>
+            Nome
+          </Label>
           <SInput
             name="name"
             {...register('name', {
@@ -211,7 +267,9 @@ const UserInfo = () => {
           )}
         </FieldWrapper>
         <FieldWrapper mr={20}>
-          <Label>E-mail</Label>
+          <Label fs={14} fw={500}>
+            E-mail
+          </Label>
 
           <SInput
             name="email"
@@ -235,7 +293,9 @@ const Address = () => {
       <Title>Endereço</Title>
       <FlexDiv fw={'wrap'}>
         <FieldWrapper mr={20}>
-          <Label>Estado</Label>
+          <Label fs={14} fw={500}>
+            Estado
+          </Label>
           <Controller
             name="state"
             control={control}
@@ -258,7 +318,9 @@ const Address = () => {
         </FieldWrapper>
 
         <FieldWrapper mr={20}>
-          <Label>Cidade</Label>
+          <Label fs={14} fw={500}>
+            Cidade
+          </Label>
           <SInput
             name="city"
             {...register('city', {
@@ -276,7 +338,9 @@ const Address = () => {
         </FieldWrapper>
 
         <FieldWrapper>
-          <Label>Bairro</Label>
+          <Label fs={14} fw={500}>
+            Bairro
+          </Label>
           <SInput
             name="neighborhood"
             {...register('neighborhood', {
@@ -299,7 +363,7 @@ const Address = () => {
 };
 
 const Job = () => {
-  const { errors, control, jobList } = useContext(Context);
+  const { errors, control, jobList, job } = useContext(Context);
 
   return (
     <Box>
@@ -321,7 +385,12 @@ const Job = () => {
       {errors?.job && (
         <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
       )}
-      <div>Nível</div>
+      <Label fs={16} fw={600} mb={10} mt={20}>
+        Nível
+      </Label>
+      <div>
+        <LevelChip level={job?.level} />
+      </div>
     </Box>
   );
 };
@@ -412,7 +481,7 @@ const Personality = () => {
 };
 
 const Skill = () => {
-  const { errors, control, skillList } = useContext(Context);
+  const { errors, control, skillList, skill } = useContext(Context);
 
   return (
     <Box>
@@ -437,13 +506,23 @@ const Skill = () => {
       {errors?.skill && (
         <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
       )}
-      <div>Nível</div>
+      <Label fs={16} fw={600} mb={10} mt={20}>
+        Nível
+      </Label>
+      <div>
+        {skill?.map((item) => (
+          <ChipWrapper key={item.id}>
+            <Chip>{item?.label}</Chip>
+            <LevelChip level={item?.level} />
+          </ChipWrapper>
+        ))}
+      </div>
     </Box>
   );
 };
 
 const Idiom = () => {
-  const { errors, control, idiomList } = useContext(Context);
+  const { errors, control, idiomList, idiom } = useContext(Context);
 
   return (
     <Box>
@@ -466,7 +545,17 @@ const Idiom = () => {
       {errors?.idiom && (
         <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
       )}
-      <div>Nível</div>
+      <Label fs={16} fw={600} mb={10} mt={20}>
+        Nível
+      </Label>
+      <div>
+        {idiom?.map((item) => (
+          <ChipWrapper key={item.id}>
+            <Chip>{item?.label}</Chip>
+            <LevelChip level={item?.level} />
+          </ChipWrapper>
+        ))}
+      </div>
     </Box>
   );
 };

@@ -34,11 +34,13 @@ export const FieldWrapper = styled.div`
   margin-right: ${({ mr }) => mr && `${mr}px`};
 `;
 
-export const Label = styled.label`
-  font-size: 14px;
-  font-weight: 500;
+export const Label = styled.div`
+  font-size: ${({ fs }) => fs && `${fs}px`};
+  font-weight: ${({ fw }) => fw && `${fw}`};
   color: ${({ color }) => color && color};
-  margin-bottom: 5px;
+
+  margin-bottom: ${({ mb }) => (mb ? `${mb}px` : '5px')};
+  margin-top: ${({ mt }) => mt && `${mt}px`};
 `;
 
 export const Title = styled.div`
@@ -62,4 +64,23 @@ export const FlexDiv = styled.div`
   flex-direction: ${({ fd }) => fd};
   flex-wrap: ${({ fw }) => fw};
   justify-content: ${({ jc }) => jc};
+`;
+
+export const ChipWrapper = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+export const Chip = styled.div`
+  border-radius: 100px;
+  padding: 5px 12px;
+  width: fit-content;
+
+  color: ${COLORS.GREY4};
+  background-color: ${COLORS.GREY3};
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-right: 15px;
 `;

@@ -45,10 +45,10 @@ export const USER_MANAGEMENT = {
   notInformed: 'Não informado',
 };
 
-export const USER_MANAGEMENT_STATUS = [
-  { knowledge: 1, name: 'Baixo' },
-  { knowledge: 2, name: 'Intermediário' },
-  { knowledge: 3, name: 'Alto' },
+export const USER_LEVEL = [
+  { level: 1, name: 'Baixo' },
+  { level: 2, name: 'Intermediário' },
+  { level: 3, name: 'Alto' },
 ];
 
 export const CANDIDATE_PROFILE = {
