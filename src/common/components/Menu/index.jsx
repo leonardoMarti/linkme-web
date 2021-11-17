@@ -5,6 +5,7 @@ import { COLORS } from '../../utils/colors';
 
 import { ConfigIcon } from '../../../assets/svgs/ConfigIcon';
 import { UserIcon } from '../../../assets/svgs/UserIcon';
+import { SearchIcon } from '../../../assets/svgs/SearchIcon';
 
 import { PAGES } from '../../../common/pages';
 
@@ -30,6 +31,11 @@ export const Menu = () => {
       icon: <UserIcon />,
       page: PAGES.CANDIDATEPROFILE,
     },
+    {
+      name: 'Busca',
+      icon: <SearchIcon />,
+      page: PAGES.USERSEARCH,
+    },
   ];
 
   const companyOptions = [
@@ -41,21 +47,24 @@ export const Menu = () => {
     { name: 'Configurações', icon: <ConfigIcon /> },
   ];
 
-  const redirectTo = (page) => history.push(page);
+  const redirectTo = async (page) => history.push(page);
 
   const renderOptions =
     userData?.type === 'trainee' ? traineeOptions : companyOptions;
 
   return (
     <Container>
-      <MenuHeader onClick={() => history.push(PAGES.USERMANAGEMENT)}>
+      <MenuHeader onClick={() => history.push(PAGES.USERSEARCH)}>
         <Label color={COLORS.GREY2} pointer fs={24} fw={700}>
           LinkMe
         </Label>
       </MenuHeader>
       <OptionsWrapper>
         {renderOptions.map((option, index) => (
-          <Option key={index} onClick={() => redirectTo(option.page)}>
+          <Option
+            key={index}
+            onClick={() => redirectTo(option?.page)}
+          >
             {option.icon}
             {option.name}
           </Option>

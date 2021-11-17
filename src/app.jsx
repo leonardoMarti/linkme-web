@@ -8,7 +8,7 @@ import { AuthContextProvider } from './contexts/AuthContext';
 import { ToastSnackBar } from './common/components/ToastSnackBar';
 
 import { SignIn } from './app/SignIn';
-import { UserManagement } from './app/UserManagement';
+import { UserSearch } from './app/UserSearch';
 import { CreateAccount } from './app/CreateAccount';
 import { CandidateProfile } from './app/CandidateProfile';
 
@@ -19,10 +19,7 @@ export const App = () => {
         <ToastSnackBar />
         <Switch>
           <Route path="/" exact component={SignIn} />
-          <Route
-            path={PAGES.USERMANAGEMENT}
-            component={UserManagement}
-          />
+          <Route path={PAGES.USERSEARCH} component={UserSearch} />
           <Route
             path={PAGES.CREATEACCOUNT}
             component={CreateAccount}

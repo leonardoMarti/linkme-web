@@ -47,7 +47,7 @@ export const SignIn = () => {
   const submitLogIn = async (values) => {
     const { email, password } = values;
     const response = await signIn({ email, password });
-    if (response) return history.push(PAGES.USERMANAGEMENT);
+    if (response) return history.push(PAGES.USERSEARCH);
   };
 
   return (

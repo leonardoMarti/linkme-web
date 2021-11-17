@@ -182,13 +182,13 @@ export const CandidateProfile = () => {
         skill:
           skill.map((item) => ({
             value: item?.id,
-            label: item?.skill[0]?.name,
+            label: item?.skill?.name,
             level: item?.level,
           })) || null,
         idiom:
           idiom.map((item) => ({
             value: item?.id,
-            label: item?.idiom[0]?.name,
+            label: item?.idiom?.name,
             level: item?.level,
           })) || null,
       });

@@ -70,3 +70,22 @@ export const CANDIDATE_PROFILE = {
   company: 'Empresa',
   register: 'Cadastre-se',
 };
+
+export const USER_DIALOG = {
+  candidateProfile: 'Perfil Candidato',
+  vacancyProfile: 'Perfil Vaga',
+  offerVacancy: 'Oferecer vaga',
+  apply: 'Candidatar-se',
+  address: 'Endereço',
+  vacancy: 'Vaga de interesse',
+  availability: 'Disponibilidade',
+  courseTime: 'Tempo de curso',
+  personality: 'Personalidade',
+  skills: 'Habilidades',
+  idioms: 'Idiomas',
+};
+
+export const HEADER = [
+  { url: '/candidate-profile', name: 'Perfil' },
+  { url: '/user-search', name: 'Busca' },
+];

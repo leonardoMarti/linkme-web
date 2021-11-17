@@ -80,6 +80,8 @@ export const SectionRow = styled.div`
   border-bottom: 1px solid ${COLORS.GREY3};
   padding: 24px 30px;
 
+  cursor: pointer;
+
   transition: background-color 0.2s;
 
   &:hover {
@@ -106,28 +108,6 @@ export const CircleUserIcon = styled.div`
   background-color: ${COLORS.GREY3};
   cursor: pointer;
   margin-right: 5px;
-`;
-
-const setStatusColor = (status) => {
-  switch (status) {
-    case 1:
-      return COLORS.RED2;
-    case 2:
-      return COLORS.YELLOW;
-    default:
-      return COLORS.GREEN;
-  }
-};
-
-export const KnowledgeStatus = styled.div`
-  border-radius: 100px;
-  padding: 5px 12px;
-
-  color: ${COLORS.WHITE};
-  background-color: ${({ status }) => setStatusColor(status)};
-
-  font-size: 14px;
-  font-weight: 600;
 `;
 
 export const Footer = styled.div`

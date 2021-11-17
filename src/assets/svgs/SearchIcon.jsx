@@ -13,11 +13,11 @@ export const SearchIcon = ({ width = 16, height = 16 }) => {
         cx="6.5"
         cy="6.5"
         r="5.75"
-        stroke="#C5C7CD"
+        stroke="#9FA2B4"
         strokeWidth="1.5"
       ></circle>
       <path
-        stroke="#C5C7CD"
+        stroke="#9FA2B4"
         strokeLinecap="round"
         strokeWidth="1.5"
         d="M11 11l4 4"

@@ -6,6 +6,10 @@
   "private": false,
   "homepage": "/",
   "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.1.0",
+    "@mui/styles": "^5.1.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "npm": "^6.1.0",

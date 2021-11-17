@@ -10,7 +10,7 @@ import { LevelChip } from '../../common/components/LevelChip';
 
 import { CandidateService } from '../../common/services/candidateService';
 
-import { USER_MANAGEMENT, USER_LEVEL } from '../../common/translate';
+import { USER_MANAGEMENT } from '../../common/translate';
 
 import { COLORS } from '../../common/utils/colors';
 
@@ -18,6 +18,8 @@ import { SortIcon } from '../../assets/svgs/SortIcon';
 import { FilterIcon } from '../../assets/svgs/FilterIcon';
 import { ArrowLeft } from '../../assets/svgs/ArrowLeft';
 import { ArrowRight } from '../../assets/svgs/ArrowRight';
+
+import { UserDialog } from './UserDialog';
 
 import {
   Container,
@@ -33,7 +35,6 @@ import {
   SectionRow,
   Row,
   CircleUserIcon,
-  KnowledgeStatus,
   Footer,
   Limit,
   LimitSelected,
@@ -42,8 +43,10 @@ import {
 
 export const Context = createContext();
 
-export const UserManagement = () => {
-  const [userData, setUserData] = useState([]);
+export const UserSearch = () => {
+  const [usersData, setUsersData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState();
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
 
@@ -52,7 +55,7 @@ export const UserManagement = () => {
       limit,
       offset,
     });
-    if (data?.length) setUserData(data);
+    if (data?.length) setUsersData(data);
   };
 
   useEffect(() => {
@@ -63,12 +66,18 @@ export const UserManagement = () => {
     setOffset(0);
   }, [limit]);
 
+  const handleOpenDialog = (data) => {
+    setSelectedUser(data);
+    setOpenDrawer(!openDrawer);
+  };
+
   const context = {
-    userData,
+    usersData,
     limit,
     setLimit,
     offset,
     setOffset,
+    handleOpenDialog,
   };
 
   return (
@@ -81,6 +90,11 @@ export const UserManagement = () => {
           </div>
           <TableFooter />
         </Container>
+        <UserDialog
+          open={openDrawer}
+          setOpen={setOpenDrawer}
+          data={selectedUser}
+        />
       </Context.Provider>
     </LayoutStructure>
   );
@@ -142,7 +156,7 @@ const TableFooter = () => {
 };
 
 const Table = () => {
-  const { userData } = useContext(Context);
+  const { usersData, handleOpenDialog } = useContext(Context);
 
   const traineeColumns = [
     { name: USER_MANAGEMENT.name, space: 1.5 },
@@ -177,8 +191,11 @@ const Table = () => {
       </Head>
       <Divider />
       <TableRows>
-        {userData?.map((item, index) => (
-          <SectionRow key={index}>
+        {usersData?.map((item, index) => (
+          <SectionRow
+            key={index}
+            onClick={() => handleOpenDialog(item)}
+          >
             <Row flex={1.5} hasData={item?.user?.name}>
               <CircleUserIcon />
               {item?.user?.name || USER_MANAGEMENT.notInformed}

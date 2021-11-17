@@ -1,6 +1,6 @@
 export const PAGES = {
   SIGNIN: '/',
-  USERMANAGEMENT: '/user-management',
+  USERSEARCH: '/user-search',
   CREATEACCOUNT: '/create-account',
   CANDIDATEPROFILE: '/candidate-profile',
 };
