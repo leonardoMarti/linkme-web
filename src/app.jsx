@@ -11,6 +11,7 @@ import { SignIn } from './app/SignIn';
 import { UserSearch } from './app/UserSearch';
 import { CreateAccount } from './app/CreateAccount';
 import { CandidateProfile } from './app/CandidateProfile';
+import { Notification } from './app/Notification';
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
             path={PAGES.CANDIDATEPROFILE}
             component={CandidateProfile}
           />
+          <Route path={PAGES.NOTIFICATION} component={Notification} />
         </Switch>
       </AuthContextProvider>
     </BrowserRouter>

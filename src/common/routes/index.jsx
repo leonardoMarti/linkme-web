@@ -8,4 +8,6 @@ export const ROUTES = {
   PERSONALITIES: '/personalities',
   SKILLS: '/skills',
   IDIOM: '/idioms',
+  SOLICITATIONS: '/solicitations',
+  NOTIFICATIONS: '/notifications',
 };

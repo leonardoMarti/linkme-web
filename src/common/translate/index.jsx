@@ -88,4 +88,20 @@ export const USER_DIALOG = {
 export const HEADER = [
   { url: '/candidate-profile', name: 'Perfil' },
   { url: '/user-search', name: 'Busca' },
+  { url: '/notification', name: 'Notificações' },
 ];
+
+export const NOTIFICATION = {
+  candidateProfile: 'Perfil Candidato',
+};
+
+export const SOLICITATION_STATUS = {
+  pending: 'Pendente',
+  accept: 'Aceito',
+  reject: 'Recusado',
+};
+
+export const USER_TYPE = {
+  company: 'Empresa',
+  trainee: 'Estagiário',
+};

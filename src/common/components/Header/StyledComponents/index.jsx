@@ -31,7 +31,7 @@ export const VerticalDivider = styled.div`
 
 export const IconWrapper = styled.div`
   cursor: pointer;
-  margin-left: ${({ ml }) => ml && `${ml}px`};
+  margin-left: 24px;
 `;
 
 export const LeftPartHeader = styled.div`

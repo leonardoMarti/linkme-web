@@ -1,7 +1,9 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import { NotificationIcon } from '../../../assets/svgs/NotificationIcon';
+
+import { PAGES } from '../../pages';
 
 import { HEADER } from '../../translate';
 
@@ -19,10 +21,15 @@ import {
 
 export const Header = () => {
   const { user: data } = useAuth();
+
   const location = useLocation();
+  const history = useHistory();
 
   const handleTitles = (pathname) =>
     pathname ? HEADER.find((item) => item.url === pathname).name : '';
+
+  const redirectToNotifications = () =>
+    history.push(PAGES.NOTIFICATION);
 
   return (
     <Container>
@@ -30,7 +37,7 @@ export const Header = () => {
         <Label>{handleTitles(location?.pathname)}</Label>
       </LeftPartHeader>
       <RightPartHeader>
-        <IconWrapper ml={24}>
+        <IconWrapper onClick={redirectToNotifications}>
           <NotificationIcon />
         </IconWrapper>
         <VerticalDivider />
