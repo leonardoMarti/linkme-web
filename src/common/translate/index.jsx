@@ -92,14 +92,20 @@ export const HEADER = [
 ];
 
 export const NOTIFICATION = {
-  candidateProfile: 'Perfil Candidato',
+  disableNotification: 'Desativar notificação',
+  vacancy: 'Vaga',
+  description: 'Descrição',
+  salary: 'Salário',
+  quantity: 'Quantidade',
+  reject: 'Rejeitar',
+  accept: 'Aceitar',
 };
 
-export const SOLICITATION_STATUS = {
-  pending: 'Pendente',
-  accept: 'Aceito',
-  reject: 'Recusado',
-};
+export const SOLICITATION_STATUS = [
+  { value: 'pending', label: 'Pendente' },
+  { value: 'accept', label: 'Aceito' },
+  { value: 'reject', label: 'Recusado' },
+];
 
 export const USER_TYPE = {
   company: 'Empresa',

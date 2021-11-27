@@ -34,7 +34,9 @@ export const Header = () => {
   return (
     <Container>
       <LeftPartHeader>
-        <Label>{handleTitles(location?.pathname)}</Label>
+        <Label fs={19} fw={700}>
+          {handleTitles(location?.pathname)}
+        </Label>
       </LeftPartHeader>
       <RightPartHeader>
         <IconWrapper onClick={redirectToNotifications}>

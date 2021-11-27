@@ -18,6 +18,6 @@ export const CustomButton = styled.button`
   transition: filter 0.2s;
 
   &:hover {
-    filter: brightness(1.3);
+    filter: brightness(1.1);
   }
 `;

@@ -42,6 +42,7 @@ export const CreateAccount = () => {
 
   const submitCreateAccount = async (values) => {
     await createAccount(values);
+    redirectToSignIn();
   };
 
   return (
