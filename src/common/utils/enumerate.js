@@ -3,3 +3,8 @@ export const ENUM_SOLICITATION_STATUS = {
   accept: 'accept',
   reject: 'reject',
 };
+
+export const ENUM_USER_TYPE = {
+  trainee: 'trainee',
+  company: 'company',
+};

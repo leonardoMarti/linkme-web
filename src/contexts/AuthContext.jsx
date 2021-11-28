@@ -39,10 +39,11 @@ export const AuthContextProvider = (props) => {
   };
 
   const findUserByPk = async (id) => {
-    const { data } = await UserService.findByPk({ userId: id });
-    if (data) {
-      setUser(data);
-      setStorage('user', data);
+    const { data } = await UserService.findByQuery({ id });
+
+    if (data?.length) {
+      setUser(data[0]);
+      setStorage('user', data[0]);
     }
   };
 
@@ -57,9 +58,5 @@ export const AuthContextProvider = (props) => {
     createAccount,
   };
 
-  return (
-    <AuthContext.Provider value={context}>
-      {props.children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>;
 };

@@ -7,11 +7,7 @@ import { DisableNotification } from '../../assets/svgs/DisableNotification';
 import { getStorage } from '../../common/utils/storage';
 import { setCurrency } from '../../common/utils/currency';
 
-import {
-  NOTIFICATION,
-  SOLICITATION_STATUS,
-  USER_TYPE,
-} from '../../common/translate';
+import { NOTIFICATION, SOLICITATION_STATUS, USER_TYPE } from '../../common/translate';
 
 import { ENUM_SOLICITATION_STATUS } from '../../common/utils/enumerate';
 
@@ -40,9 +36,7 @@ export const Notification = () => {
 
   const findSolicitationsById = async () => {
     if (userData?.candidate) {
-      const { data } = await SolicitationService.findByPk(
-        userData?.id,
-      );
+      const { data } = await SolicitationService.findByPk(userData?.id);
       if (data?.length) setSolicitations(data);
     }
   };
@@ -64,8 +58,7 @@ export const Notification = () => {
     findSolicitationsById();
   }, []);
 
-  const handleStatusLabel = (status) =>
-    SOLICITATION_STATUS.find((item) => item?.value === status).label;
+  const handleStatusLabel = (status) => SOLICITATION_STATUS.find((item) => item?.value === status).label;
 
   const pendingStatus = (status) => status === 'pending';
 
@@ -78,20 +71,14 @@ export const Notification = () => {
               <TitleWrapper>
                 <Title>{item?.user?.name}</Title>
                 {item?.notification?.notify && (
-                  <DisableNotificationButton
-                    onClick={() =>
-                      disableNotification(item?.notification?.id)
-                    }
-                  >
+                  <DisableNotificationButton onClick={() => disableNotification(item?.notification?.id)}>
                     <DisableNotification />
                     {NOTIFICATION.disableNotification}
                   </DisableNotificationButton>
                 )}
               </TitleWrapper>
 
-              <Status status={item?.status}>
-                {handleStatusLabel(item?.status)}
-              </Status>
+              <Status status={item?.status}>{handleStatusLabel(item?.status)}</Status>
             </BoxHeader>
             <BoxContent>
               {item?.user?.vacancy?.title && (

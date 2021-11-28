@@ -41,8 +41,7 @@ export const SignIn = () => {
     mode: 'onChange',
   });
 
-  const redirectToCreateAccount = () =>
-    history.push(PAGES.CREATEACCOUNT);
+  const redirectToCreateAccount = () => history.push(PAGES.CREATEACCOUNT);
 
   const submitLogIn = async (values) => {
     const { email, password } = values;
@@ -67,9 +66,7 @@ export const SignIn = () => {
               {SIGN_IN.dontHaveAccount}
             </Label>
 
-            <CreateButton onClick={redirectToCreateAccount}>
-              {SIGN_IN.createYourAccount}
-            </CreateButton>
+            <CreateButton onClick={redirectToCreateAccount}>{SIGN_IN.createYourAccount}</CreateButton>
           </CreateAccountWrapper>
         </Header>
 
@@ -88,12 +85,8 @@ export const SignIn = () => {
               placeholder={SIGN_IN.emailPlaceholder}
               errors={Boolean(errors?.email)}
             />
-            {errors?.email?.type === 'required' && (
-              <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>
-            )}
-            {errors?.email?.type === 'pattern' && (
-              <ErrorMessage>{SIGN_IN.invalidFormat}</ErrorMessage>
-            )}
+            {errors?.email?.type === 'required' && <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>}
+            {errors?.email?.type === 'pattern' && <ErrorMessage>{SIGN_IN.invalidFormat}</ErrorMessage>}
           </InputWrapper>
           <InputWrapper>
             <Input
@@ -105,14 +98,10 @@ export const SignIn = () => {
               type="password"
               errors={Boolean(errors?.password)}
             />
-            {errors?.password && (
-              <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>
-            )}
+            {errors?.password && <ErrorMessage>{SIGN_IN.requiredField}</ErrorMessage>}
           </InputWrapper>
 
-          <ForgotPasswordLink>
-            {SIGN_IN.forgotPassword}
-          </ForgotPasswordLink>
+          <ForgotPasswordLink>{SIGN_IN.forgotPassword}</ForgotPasswordLink>
           <Button type="submit">{SIGN_IN.enter}</Button>
         </Form>
       </Main>

@@ -5,11 +5,7 @@ import { LevelWrapper } from './StyledComponents';
 
 export const LevelChip = ({ level }) => {
   const handleLevelChip = (item) =>
-    USER_LEVEL.find((status) => status?.level === item)?.name;
+    item ? USER_LEVEL.find((status) => status?.level === item)?.name : 'Não informado';
 
-  return (
-    <LevelWrapper level={level}>
-      {handleLevelChip(level)}
-    </LevelWrapper>
-  );
+  return <LevelWrapper level={level}>{handleLevelChip(level)}</LevelWrapper>;
 };

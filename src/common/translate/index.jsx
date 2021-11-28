@@ -31,8 +31,9 @@ export const CREATE_ACCOUNT = {
   register: 'Cadastre-se',
 };
 
-export const USER_MANAGEMENT = {
-  searchForTrainees: 'Busca por estágiarios',
+export const USER_SEARCH = {
+  searchForTrainees: 'Estágiarios',
+  searchForCompanies: 'Empresas',
   order: 'Ordenar',
   filter: 'Filtrar',
   totalResults: 'Total de resultados',
@@ -43,6 +44,10 @@ export const USER_MANAGEMENT = {
   courseTime: 'Tempo de curso',
   knowledge: 'Conhecimento',
   notInformed: 'Não informado',
+  vacancy: 'Vaga',
+  salary: 'Salário',
+  quantity: 'Quantidade',
+  userType: 'Tipo do usuário',
 };
 
 export const USER_LEVEL = [
@@ -77,12 +82,15 @@ export const USER_DIALOG = {
   offerVacancy: 'Oferecer vaga',
   apply: 'Candidatar-se',
   address: 'Endereço',
-  vacancy: 'Vaga de interesse',
+  vacancyOfInterest: 'Vaga de interesse',
   availability: 'Disponibilidade',
   courseTime: 'Tempo de curso',
   personality: 'Personalidade',
   skills: 'Habilidades',
   idioms: 'Idiomas',
+  vacancy: 'Vaga',
+  description: 'Descrição',
+  salary: 'Salário',
 };
 
 export const HEADER = [

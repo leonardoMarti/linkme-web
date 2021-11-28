@@ -99,6 +99,11 @@ export const ButtonWrapper = styled.div`
 
 export const OptionWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: baseline;
   margin-bottom: 15px;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
 `;

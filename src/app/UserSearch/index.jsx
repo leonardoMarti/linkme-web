@@ -1,25 +1,20 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-} from 'react';
+import React, { useEffect, useState, useContext, createContext } from 'react';
 
 import { LayoutStructure } from '../../common/components/LayoutStructure';
-import { LevelChip } from '../../common/components/LevelChip';
 
-import { CandidateService } from '../../common/services/candidateService';
+import { UserService } from '../../common/services/userService';
 
-import { USER_MANAGEMENT } from '../../common/translate';
-
+import { USER_SEARCH } from '../../common/translate';
+import { ENUM_USER_TYPE } from '../../common/utils/enumerate';
 import { COLORS } from '../../common/utils/colors';
 
-import { SortIcon } from '../../assets/svgs/SortIcon';
 import { FilterIcon } from '../../assets/svgs/FilterIcon';
 import { ArrowLeft } from '../../assets/svgs/ArrowLeft';
 import { ArrowRight } from '../../assets/svgs/ArrowRight';
 
 import { UserDialog } from './UserDialog';
+import { Table } from './Table';
+import { Filter } from './Filter';
 
 import {
   Container,
@@ -27,40 +22,37 @@ import {
   Header,
   ActionWrapper,
   Action,
-  TableWrapper,
-  Head,
-  Divider,
-  Column,
-  TableRows,
-  SectionRow,
-  Row,
-  CircleUserIcon,
   Footer,
   Limit,
   LimitSelected,
   Offset,
 } from './StyledComponents';
 
-export const Context = createContext();
+export const UserSearchContext = createContext();
 
 export const UserSearch = () => {
   const [usersData, setUsersData] = useState([]);
+  const [userType, setUserType] = useState(ENUM_USER_TYPE.trainee);
   const [selectedUser, setSelectedUser] = useState();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [limit, setLimit] = useState(5);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
 
-  const findAllCandidates = async () => {
-    const { data } = await CandidateService.findAll({
+  const findUsersByQuery = async () => {
+    const { data } = await UserService.findByQuery({
       limit,
       offset,
+      type: userType,
     });
+    console.log('findUsersByQuery', data);
+
     if (data?.length) setUsersData(data);
   };
 
   useEffect(() => {
-    findAllCandidates();
-  }, [limit, offset]);
+    findUsersByQuery();
+  }, [limit, offset, userType]);
 
   useEffect(() => {
     setOffset(0);
@@ -71,18 +63,28 @@ export const UserSearch = () => {
     setOpenDrawer(!openDrawer);
   };
 
+  const handleOpenFilter = () => setOpenFilter(!openFilter);
+
   const context = {
     usersData,
     limit,
     setLimit,
     offset,
     setOffset,
+    openFilter,
+    setOpenFilter,
+    openDrawer,
+    setOpenDrawer,
+    selectedUser,
+    userType,
+    setUserType,
+    handleOpenFilter,
     handleOpenDialog,
   };
 
   return (
     <LayoutStructure>
-      <Context.Provider value={context}>
+      <UserSearchContext.Provider value={context}>
         <Container>
           <div>
             <TableHeader />
@@ -90,28 +92,24 @@ export const UserSearch = () => {
           </div>
           <TableFooter />
         </Container>
-        <UserDialog
-          open={openDrawer}
-          setOpen={setOpenDrawer}
-          data={selectedUser}
-        />
-      </Context.Provider>
+        <UserDialog />
+        <Filter />
+      </UserSearchContext.Provider>
     </LayoutStructure>
   );
 };
 
 const TableHeader = () => {
+  const { userType, handleOpenFilter } = useContext(UserSearchContext);
+
   return (
     <Header>
       <Label fs={19} fw={700}>
-        {USER_MANAGEMENT.searchForTrainees}
+        {userType === ENUM_USER_TYPE.trainee ? USER_SEARCH.searchForTrainees : USER_SEARCH.searchForCompanies}
       </Label>
       <ActionWrapper>
-        <Action mr={32}>
-          <SortIcon /> {USER_MANAGEMENT.order}
-        </Action>
-        <Action>
-          <FilterIcon /> {USER_MANAGEMENT.filter}
+        <Action onClick={() => handleOpenFilter()}>
+          <FilterIcon /> {USER_SEARCH.filter}
         </Action>
       </ActionWrapper>
     </Header>
@@ -119,7 +117,7 @@ const TableHeader = () => {
 };
 
 const TableFooter = () => {
-  const { limit, setLimit, offset, setOffset } = useContext(Context);
+  const { limit, setLimit, offset, setOffset } = useContext(UserSearchContext);
 
   const limitOptions = [
     { value: 5, label: 5 },
@@ -133,7 +131,7 @@ const TableFooter = () => {
     <Footer>
       <Limit>
         <Label fs={14} color={COLORS.GREY4} mr={10}>
-          {USER_MANAGEMENT.totalResults}
+          {USER_SEARCH.totalResults}
         </Label>
 
         <LimitSelected
@@ -152,81 +150,5 @@ const TableFooter = () => {
         <ArrowRight />
       </Offset>
     </Footer>
-  );
-};
-
-const Table = () => {
-  const { usersData, handleOpenDialog } = useContext(Context);
-
-  const traineeColumns = [
-    { name: USER_MANAGEMENT.name, space: 1.5 },
-    { name: USER_MANAGEMENT.vacancyOfInterest, space: 1 },
-    { name: USER_MANAGEMENT.local, space: 1 },
-    { name: USER_MANAGEMENT.availability, space: 1 },
-    { name: USER_MANAGEMENT.courseTime, space: 1 },
-    { name: USER_MANAGEMENT.knowledge, space: 1 },
-  ];
-
-  const handleJob = (data) => data[0]?.job?.name;
-
-  const handleAvailability = (data) => {
-    const availabilities = data.map(
-      (item) => item?.availability?.name,
-    );
-    return availabilities?.length
-      ? availabilities.join(' - ')
-      : false;
-  };
-
-  const handleCourseTime = (data) => data[0]?.courseTime?.name;
-
-  return (
-    <TableWrapper>
-      <Head>
-        {traineeColumns.map((item, index) => (
-          <Column key={index} space={item?.space}>
-            {item?.name}
-          </Column>
-        ))}
-      </Head>
-      <Divider />
-      <TableRows>
-        {usersData?.map((item, index) => (
-          <SectionRow
-            key={index}
-            onClick={() => handleOpenDialog(item)}
-          >
-            <Row flex={1.5} hasData={item?.user?.name}>
-              <CircleUserIcon />
-              {item?.user?.name || USER_MANAGEMENT.notInformed}
-            </Row>
-            <Row flex={1} hasData={handleJob(item?.job)}>
-              {handleJob(item?.job) || USER_MANAGEMENT.notInformed}
-            </Row>
-            <Row flex={1} hasData={item?.user?.address?.city}>
-              {item?.user?.address?.city ||
-                USER_MANAGEMENT.notInformed}
-            </Row>
-            <Row
-              flex={1}
-              hasData={handleAvailability(item?.availability)}
-            >
-              {handleAvailability(item?.availability) ||
-                USER_MANAGEMENT.notInformed}
-            </Row>
-            <Row
-              flex={1}
-              hasData={handleCourseTime(item?.courseTime)}
-            >
-              {handleCourseTime(item?.courseTime) ||
-                USER_MANAGEMENT.notInformed}
-            </Row>
-            <Row flex={1}>
-              <LevelChip level={item?.job[0]?.level} />
-            </Row>
-          </SectionRow>
-        ))}
-      </TableRows>
-    </TableWrapper>
   );
 };

@@ -6,9 +6,9 @@ export const UserService = {
   save: (data) => {
     return request.save(ROUTES.USERS, data);
   },
-  findByPk: (id) => {
+  findByQuery: (data) => {
     return request.get(
-      `${ROUTES.USERS}?${queryString.stringify(id)}`,
+      `${ROUTES.USERS}?${queryString.stringify(data)}`,
     );
   },
 };
