@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PAGES } from './common/pages';
 
 import { AuthContextProvider } from './contexts/AuthContext';
+import { SelectOptionsContextProvider } from './contexts/SelectOptionsContext';
 
 import { ToastSnackBar } from './common/components/ToastSnackBar';
 
@@ -17,20 +18,16 @@ export const App = () => {
   return (
     <BrowserRouter>
       <AuthContextProvider>
-        <ToastSnackBar />
-        <Switch>
-          <Route path="/" exact component={SignIn} />
-          <Route path={PAGES.USERSEARCH} component={UserSearch} />
-          <Route
-            path={PAGES.CREATEACCOUNT}
-            component={CreateAccount}
-          />
-          <Route
-            path={PAGES.CANDIDATEPROFILE}
-            component={CandidateProfile}
-          />
-          <Route path={PAGES.NOTIFICATION} component={Notification} />
-        </Switch>
+        <SelectOptionsContextProvider>
+          <ToastSnackBar />
+          <Switch>
+            <Route path="/" exact component={SignIn} />
+            <Route path={PAGES.USERSEARCH} component={UserSearch} />
+            <Route path={PAGES.CREATEACCOUNT} component={CreateAccount} />
+            <Route path={PAGES.CANDIDATEPROFILE} component={CandidateProfile} />
+            <Route path={PAGES.NOTIFICATION} component={Notification} />
+          </Switch>
+        </SelectOptionsContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   );

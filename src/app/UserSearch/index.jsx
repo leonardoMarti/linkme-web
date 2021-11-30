@@ -32,27 +32,66 @@ export const UserSearchContext = createContext();
 
 export const UserSearch = () => {
   const [usersData, setUsersData] = useState([]);
-  const [userType, setUserType] = useState(ENUM_USER_TYPE.trainee);
   const [selectedUser, setSelectedUser] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
+
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
 
+  const [userType, setUserType] = useState(ENUM_USER_TYPE.company);
+  const [traineeName, setTraineeName] = useState();
+  const [job, setJob] = useState();
+  const [jobLevel, setJobLevel] = useState();
+  const [state, setState] = useState();
+  const [availability, setAvailability] = useState();
+  const [courseTime, setCourseTime] = useState();
+
+  const [companyName, setCompanyName] = useState();
+  const [vacancyTitle, setVacancyTitle] = useState();
+  const [vancacyLevel, setVancacyLevel] = useState();
+
   const findUsersByQuery = async () => {
+    setIsLoading(true);
     const { data } = await UserService.findByQuery({
       limit,
       offset,
       type: userType,
+      traineeName,
+      job,
+      jobLevel,
+      state,
+      availability,
+      courseTime,
+      companyName,
+      vacancyTitle,
+      vancacyLevel,
     });
     console.log('findUsersByQuery', data);
 
-    if (data?.length) setUsersData(data);
+    setIsLoading(false);
+
+    return data?.length ? setUsersData(data) : setUsersData([]);
   };
 
   useEffect(() => {
     findUsersByQuery();
-  }, [limit, offset, userType]);
+  }, [
+    limit,
+    offset,
+    userType,
+    traineeName,
+    job,
+    jobLevel,
+    state,
+    availability,
+    courseTime,
+    companyName,
+    vacancyTitle,
+    vancacyLevel,
+  ]);
 
   useEffect(() => {
     setOffset(0);
@@ -67,6 +106,7 @@ export const UserSearch = () => {
 
   const context = {
     usersData,
+    isLoading,
     limit,
     setLimit,
     offset,
@@ -78,6 +118,15 @@ export const UserSearch = () => {
     selectedUser,
     userType,
     setUserType,
+    setTraineeName,
+    setJob,
+    setJobLevel,
+    setState,
+    setAvailability,
+    setCourseTime,
+    setCompanyName,
+    setVacancyTitle,
+    setVancacyLevel,
     handleOpenFilter,
     handleOpenDialog,
   };

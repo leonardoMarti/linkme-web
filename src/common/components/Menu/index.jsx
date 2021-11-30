@@ -11,14 +11,7 @@ import { PAGES } from '../../../common/pages';
 
 import { useAuth } from '../../../hooks/useAuth';
 
-import {
-  Container,
-  MenuHeader,
-  Label,
-  OptionsWrapper,
-  Option,
-  HorizontalDivider,
-} from './StyledComponents';
+import { Container, MenuHeader, Label, OptionsWrapper, Option, HorizontalDivider } from './StyledComponents';
 
 export const Menu = () => {
   const { user: userData } = useAuth();
@@ -39,18 +32,23 @@ export const Menu = () => {
   ];
 
   const companyOptions = [
-    { name: 'Option 1', icon: <UserIcon />, page: '' },
-    { name: 'Option 2', icon: <UserIcon />, page: '' },
+    {
+      name: 'Perfil',
+      icon: <UserIcon />,
+      page: PAGES.CANDIDATEPROFILE,
+    },
+    {
+      name: 'Busca',
+      icon: <SearchIcon />,
+      page: PAGES.USERSEARCH,
+    },
   ];
 
-  const configOptions = [
-    { name: 'Configurações', icon: <ConfigIcon /> },
-  ];
+  const configOptions = [{ name: 'Configurações', icon: <ConfigIcon /> }];
 
   const redirectTo = async (page) => history.push(page);
 
-  const renderOptions =
-    userData?.type === 'trainee' ? traineeOptions : companyOptions;
+  const renderOptions = userData?.type === 'trainee' ? traineeOptions : companyOptions;
 
   return (
     <Container>
@@ -61,10 +59,7 @@ export const Menu = () => {
       </MenuHeader>
       <OptionsWrapper>
         {renderOptions.map((option, index) => (
-          <Option
-            key={index}
-            onClick={() => redirectTo(option?.page)}
-          >
+          <Option key={index} onClick={() => redirectTo(option?.page)}>
             {option.icon}
             {option.name}
           </Option>

@@ -48,6 +48,13 @@ export const USER_SEARCH = {
   salary: 'Salário',
   quantity: 'Quantidade',
   userType: 'Tipo do usuário',
+  state: 'Estado',
+  clean: 'Limpar',
+  whithoutResults: 'Sem resultados',
+  selectPlaceholder: 'Selecione',
+  companyNamePlaceholder: 'Nome da empresa',
+  vacancyNamePlaceholder: 'Nome da vaga',
+  traineeNamePlaceholder: 'Nome do candidato',
 };
 
 export const USER_LEVEL = [

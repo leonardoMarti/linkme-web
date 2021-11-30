@@ -1,26 +1,89 @@
-import React, { useEffect, useState, useContext, createContext } from 'react';
+import React, { useContext, createContext } from 'react';
 import Drawer from '@mui/material/Drawer';
 
 import { ENUM_USER_TYPE } from '../../../common/utils/enumerate';
 import { USER_SEARCH, USER_TYPE } from '../../../common/translate';
+import { STATES } from '../../../common/utils/states';
+
+import { useSelectOptions } from '../../../hooks/useSelectOptions';
 
 import { UserSearchContext } from '../index';
 
-import { Container, Label, Divider, UserTypeWrapper, UserTypeButton, SSelect, Option } from './StyledComponents';
+import {
+  Container,
+  Label,
+  Divider,
+  UserTypeWrapper,
+  UserTypeButton,
+  SSelect,
+  SInput,
+  SButton,
+  Option,
+} from './StyledComponents';
 
 export const FilterContext = createContext();
 
 export const Filter = () => {
-  const { openFilter, userType, setUserType, handleOpenFilter } = useContext(UserSearchContext);
+  const { jobList, availabilityList, courseTimeList, personalityList, skillList, idiomList } = useSelectOptions();
 
-  const list = [
-    { value: 1, label: 'Vai' },
-    { value: 2, label: 'Vou' },
+  const {
+    setCompanyName,
+    setVacancyTitle,
+    setVancacyLevel,
+    setTraineeName,
+    setJob,
+    setJobLevel,
+    setState,
+    setAvailability,
+    setCourseTime,
+    openFilter,
+    userType,
+    setUserType,
+    handleOpenFilter,
+  } = useContext(UserSearchContext);
+
+  const handleCleanFields = () => {
+    setTraineeName('');
+    setJob('');
+    setJobLevel('');
+    setState('');
+    setAvailability('');
+    setCourseTime('');
+
+    setCompanyName('');
+    setVacancyTitle('');
+    setVancacyLevel('');
+  };
+
+  const handleChangeUserType = (type) => {
+    setUserType(type);
+    handleCleanFields();
+  };
+
+  const knowledgeList = [
+    { value: 1, label: 'Baixo' },
+    { value: 2, label: 'Intermediário' },
+    { value: 3, label: 'Alto' },
   ];
 
   const context = {
+    jobList,
+    availabilityList,
+    courseTimeList,
+    personalityList,
+    skillList,
+    idiomList,
+    knowledgeList,
     userType,
-    list,
+    setTraineeName,
+    setJob,
+    setJobLevel,
+    setState,
+    setAvailability,
+    setCourseTime,
+    setCompanyName,
+    setVacancyTitle,
+    setVancacyLevel,
   };
 
   return (
@@ -33,14 +96,14 @@ export const Filter = () => {
             </Label>
             <UserTypeWrapper>
               <UserTypeButton
-                onClick={() => setUserType(ENUM_USER_TYPE.company)}
+                onClick={() => handleChangeUserType(ENUM_USER_TYPE.company)}
                 type={userType === ENUM_USER_TYPE.company}
               >
                 {USER_TYPE.company}
               </UserTypeButton>
               <Divider />
               <UserTypeButton
-                onClick={() => setUserType(ENUM_USER_TYPE.trainee)}
+                onClick={() => handleChangeUserType(ENUM_USER_TYPE.trainee)}
                 type={userType === ENUM_USER_TYPE.trainee}
               >
                 {USER_TYPE.trainee}
@@ -48,6 +111,7 @@ export const Filter = () => {
             </UserTypeWrapper>
           </div>
           {userType === ENUM_USER_TYPE.trainee ? <TraineeOptions /> : <CompanyOptions />}
+          <SButton onClick={() => handleCleanFields()}>Limpar</SButton>
         </Container>
       </Drawer>
     </FilterContext.Provider>
@@ -55,7 +119,18 @@ export const Filter = () => {
 };
 
 const TraineeOptions = () => {
-  const { list } = useContext(FilterContext);
+  const {
+    setTraineeName,
+    setJob,
+    setJobLevel,
+    setState,
+    setAvailability,
+    setCourseTime,
+    jobList,
+    availabilityList,
+    courseTimeList,
+    knowledgeList,
+  } = useContext(FilterContext);
 
   return (
     <div>
@@ -63,49 +138,61 @@ const TraineeOptions = () => {
         <Label fs={14} fw={500}>
           {USER_SEARCH.name}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SInput placeholder={USER_SEARCH.traineeNamePlaceholder} onChange={(e) => setTraineeName(e.target.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.vacancyOfInterest}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect placeholder={USER_SEARCH.selectPlaceholder} options={jobList} onChange={(e) => setJob(e.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
-          {USER_SEARCH.address}
+          {USER_SEARCH.state}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect placeholder={USER_SEARCH.selectPlaceholder} options={STATES} onChange={(e) => setState(e.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.availability}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect
+          placeholder={USER_SEARCH.selectPlaceholder}
+          options={availabilityList}
+          onChange={(e) => setAvailability(e.value)}
+        />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.courseTime}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect
+          placeholder={USER_SEARCH.selectPlaceholder}
+          options={courseTimeList}
+          onChange={(e) => setCourseTime(e.value)}
+        />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.knowledge}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect
+          placeholder={USER_SEARCH.selectPlaceholder}
+          options={knowledgeList}
+          onChange={(e) => setJobLevel(e.value)}
+        />
       </Option>
     </div>
   );
 };
 
 const CompanyOptions = () => {
-  const { list } = useContext(FilterContext);
+  const { setCompanyName, setVacancyTitle, setState, setVancacyLevel, knowledgeList } = useContext(FilterContext);
 
   return (
     <div>
@@ -113,42 +200,32 @@ const CompanyOptions = () => {
         <Label fs={14} fw={500}>
           {USER_SEARCH.name}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SInput placeholder={USER_SEARCH.companyNamePlaceholder} onChange={(e) => setCompanyName(e.target.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.vacancy}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SInput placeholder={USER_SEARCH.vacancyNamePlaceholder} onChange={(e) => setVacancyTitle(e.target.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
-          {USER_SEARCH.address}
+          {USER_SEARCH.state}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
-      </Option>
-
-      <Option>
-        <Label fs={14} fw={500}>
-          {USER_SEARCH.salary}
-        </Label>
-        <SSelect placeholder="Selecione" options={list} />
-      </Option>
-
-      <Option>
-        <Label fs={14} fw={500}>
-          {USER_SEARCH.quantity}
-        </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect placeholder={USER_SEARCH.selectPlaceholder} options={STATES} onChange={(e) => setState(e.value)} />
       </Option>
 
       <Option>
         <Label fs={14} fw={500}>
           {USER_SEARCH.knowledge}
         </Label>
-        <SSelect placeholder="Selecione" options={list} />
+        <SSelect
+          placeholder={USER_SEARCH.selectPlaceholder}
+          options={knowledgeList}
+          onChange={(e) => setVancacyLevel(e.value)}
+        />
       </Option>
     </div>
   );

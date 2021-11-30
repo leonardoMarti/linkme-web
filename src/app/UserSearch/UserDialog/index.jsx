@@ -38,9 +38,6 @@ export const UserDialog = () => {
 
   const { user } = useAuth();
 
-  console.log('user', user);
-  console.log('selectedUser', selectedUser);
-
   const isTrainee = (type) => type === ENUM_USER_TYPE.trainee;
 
   const handleTypeProfile = () =>
@@ -56,6 +53,7 @@ export const UserDialog = () => {
         sentBy: user?.type,
         status: ENUM_SOLICITATION_STATUS.pending,
       });
+
       SnackBar.SUCCESS('Solicitação enviada!');
     } catch (e) {
       console.log('ERROR', e);

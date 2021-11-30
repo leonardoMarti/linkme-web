@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  createContext,
-} from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { LayoutStructure } from '../../common/components/LayoutStructure';
@@ -17,13 +12,9 @@ import { getStorage } from '../../common/utils/storage';
 
 import { CANDIDATE_PROFILE } from '../../common/translate';
 
-import { JobService } from '../../common/services/jobService';
-import { AvailabilityService } from '../../common/services/availabilityService';
-import { CourseTimeService } from '../../common/services/courseTimeService';
-import { PersonalityService } from '../../common/services/personalityService';
-import { SkillService } from '../../common/services/skillService';
-import { IdiomService } from '../../common/services/idiomService';
 import { CandidateService } from '../../common/services/candidateService';
+
+import { useSelectOptions } from '../../hooks/useSelectOptions';
 
 import {
   Container,
@@ -43,12 +34,7 @@ const Context = createContext();
 export const CandidateProfile = () => {
   const userData = getStorage('user');
 
-  const [jobList, setjobList] = useState([]);
-  const [availabilityList, setAvailabilityList] = useState([]);
-  const [courseTimeList, setCourseTimeList] = useState([]);
-  const [personalityList, setPersonalityList] = useState([]);
-  const [skillList, setSkillList] = useState([]);
-  const [idiomList, setIdiomList] = useState([]);
+  const { jobList, availabilityList, courseTimeList, personalityList, skillList, idiomList } = useSelectOptions();
 
   const [candidate, setCandidate] = useState();
 
@@ -66,87 +52,13 @@ export const CandidateProfile = () => {
 
   const { job, skill, idiom } = getValues();
 
-  const findAllJobs = async () => {
-    const { data } = await JobService.findAll();
-    if (data?.length) {
-      setjobList(
-        data.map((item) => ({
-          value: item?.id,
-          label: item?.name,
-          level: null,
-        })),
-      );
-    }
-  };
-
-  const findAllAvailabilities = async () => {
-    const { data } = await AvailabilityService.findAll();
-    if (data?.length) {
-      setAvailabilityList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
-      );
-    }
-  };
-
-  const findAllCourseTime = async () => {
-    const { data } = await CourseTimeService.findAll();
-    if (data?.length) {
-      setCourseTimeList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
-      );
-    }
-  };
-
-  const findAllPersonalities = async () => {
-    const { data } = await PersonalityService.findAll();
-    if (data?.length) {
-      setPersonalityList(
-        data.map((item) => ({ value: item?.id, label: item?.name })),
-      );
-    }
-  };
-
-  const findAllSkills = async () => {
-    const { data } = await SkillService.findAll();
-    if (data?.length) {
-      setSkillList(
-        data.map((item) => ({
-          value: item?.id,
-          label: item?.name,
-          level: null,
-        })),
-      );
-    }
-  };
-
-  const findAllIdioms = async () => {
-    const { data } = await IdiomService.findAll();
-    if (data?.length) {
-      setIdiomList(
-        data.map((item) => ({
-          value: item?.id,
-          label: item?.name,
-          level: null,
-        })),
-      );
-    }
-  };
-
   const findCandidateById = async () => {
     const { data } = await CandidateService.findAll({
       userId: userData?.id,
     });
     if (data?.length) {
       setCandidate(data[0]);
-      const {
-        user,
-        job,
-        availability,
-        skill,
-        idiom,
-        courseTime,
-        personality,
-      } = data[0];
+      const { user, job, availability, skill, idiom, courseTime, personality } = data[0];
 
       reset({
         name: user?.name,
@@ -196,12 +108,6 @@ export const CandidateProfile = () => {
   };
 
   useEffect(() => {
-    findAllJobs();
-    findAllAvailabilities();
-    findAllCourseTime();
-    findAllPersonalities();
-    findAllSkills();
-    findAllIdioms();
     findCandidateById();
   }, []);
 
@@ -260,11 +166,7 @@ const UserInfo = () => {
             placeholder={'Seu nome'}
             errors={Boolean(errors?.name)}
           />
-          {errors?.name && (
-            <ErrorMessage>
-              {CANDIDATE_PROFILE.requiredField}
-            </ErrorMessage>
-          )}
+          {errors?.name && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
         </FieldWrapper>
         <FieldWrapper mr={20}>
           <Label fs={14} fw={500}>
@@ -302,19 +204,9 @@ const Address = () => {
             rules={{
               required: true,
             }}
-            render={({ field }) => (
-              <SSelect
-                {...field}
-                placeholder="Selecione"
-                options={STATES}
-              />
-            )}
+            render={({ field }) => <SSelect {...field} placeholder="Selecione" options={STATES} />}
           />
-          {errors?.state && (
-            <ErrorMessage>
-              {CANDIDATE_PROFILE.requiredField}
-            </ErrorMessage>
-          )}
+          {errors?.state && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
         </FieldWrapper>
 
         <FieldWrapper mr={20}>
@@ -330,11 +222,7 @@ const Address = () => {
             placeholder={'Sua cidade'}
             errors={Boolean(errors?.city)}
           />
-          {errors?.city && (
-            <ErrorMessage>
-              {CANDIDATE_PROFILE.requiredField}
-            </ErrorMessage>
-          )}
+          {errors?.city && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
         </FieldWrapper>
 
         <FieldWrapper>
@@ -351,11 +239,7 @@ const Address = () => {
             errors={Boolean(errors?.neighborhood)}
             mw={400}
           />
-          {errors?.neighborhood && (
-            <ErrorMessage>
-              {CANDIDATE_PROFILE.requiredField}
-            </ErrorMessage>
-          )}
+          {errors?.neighborhood && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
         </FieldWrapper>
       </FlexDiv>
     </Box>
@@ -374,17 +258,9 @@ const Job = () => {
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={jobList}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={jobList} />}
       />
-      {errors?.job && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.job && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
       <Label fs={16} fw={600} mb={10} mt={20}>
         Nível
       </Label>
@@ -407,18 +283,9 @@ const Availability = () => {
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={availabilityList}
-            isMulti={true}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={availabilityList} isMulti={true} />}
       />
-      {errors?.availability && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.availability && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
     </Box>
   );
 };
@@ -435,17 +302,9 @@ const CourseTime = () => {
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={courseTimeList}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={courseTimeList} />}
       />
-      {errors?.courseTime && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.courseTime && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
     </Box>
   );
 };
@@ -455,27 +314,16 @@ const Personality = () => {
 
   return (
     <Box>
-      <Title>
-        Como você se avalia com relação a sua personalidade?
-      </Title>
+      <Title>Como você se avalia com relação a sua personalidade?</Title>
       <Controller
         name="personality"
         control={control}
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={personalityList}
-            isMulti={true}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={personalityList} isMulti={true} />}
       />
-      {errors?.personality && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.personality && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
     </Box>
   );
 };
@@ -485,27 +333,16 @@ const Skill = () => {
 
   return (
     <Box>
-      <Title>
-        Quais são suas habilidades com relação a sua vaga?
-      </Title>
+      <Title>Quais são suas habilidades com relação a sua vaga?</Title>
       <Controller
         name="skill"
         control={control}
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={skillList}
-            isMulti={true}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={skillList} isMulti={true} />}
       />
-      {errors?.skill && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.skill && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
       <Label fs={16} fw={600} mb={10} mt={20}>
         Nível
       </Label>
@@ -533,18 +370,9 @@ const Idiom = () => {
         rules={{
           required: true,
         }}
-        render={({ field }) => (
-          <SSelect
-            {...field}
-            placeholder="Selecione"
-            options={idiomList}
-            isMulti={true}
-          />
-        )}
+        render={({ field }) => <SSelect {...field} placeholder="Selecione" options={idiomList} isMulti={true} />}
       />
-      {errors?.idiom && (
-        <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>
-      )}
+      {errors?.idiom && <ErrorMessage>{CANDIDATE_PROFILE.requiredField}</ErrorMessage>}
       <Label fs={16} fw={600} mb={10} mt={20}>
         Nível
       </Label>

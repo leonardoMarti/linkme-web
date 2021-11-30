@@ -67,3 +67,12 @@ export const CircleUserIcon = styled.div`
 export const FilterContainer = styled.div`
   display: flex;
 `;
+
+export const WithoutResults = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 19px;
+  font-weight: 700;
+`;

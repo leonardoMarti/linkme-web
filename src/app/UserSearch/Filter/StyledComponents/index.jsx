@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { COLORS } from '../../../../common/utils/colors';
 import { Select } from '../../../../common/components/Select';
+import { Input } from '../../../../common/components/Input';
+import { Button } from '../../../../common/components/Button';
 
 export const Container = styled.div`
   display: flex;
@@ -66,4 +68,12 @@ export const Option = styled.div`
 
 export const SSelect = styled(Select)`
   margin-top: 5px;
+`;
+
+export const SInput = styled(Input)`
+  margin-top: 5px;
+`;
+
+export const SButton = styled(Button)`
+  width: 100%;
 `;
